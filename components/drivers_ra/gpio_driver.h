@@ -2,7 +2,7 @@
 #define GPIO_DRIVER_H
 // #include "driver/ledc.h"
 #include "driver/gpio.h"
-#include "board_config.h"
+
 
 
 void gpio_driver_init(gpio_num_t pin);
