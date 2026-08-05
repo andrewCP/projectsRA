@@ -1,28 +1,44 @@
 # 📘 Guía de Git para Estudiantes
 
-¡Hola de nuevo! Sigue estos pasos exactos para entregar tus tareas y comenzar las nuevas sin errores.
-
 ---
 
-## 🚀 1. Ciclo para Entregar la Tarea Actual
-
-Cuando termines de programar tus ejercicios, ejecuta estos comandos en tu terminal en este orden:
 
 ```bash
-# 1. Asegúrate de estar en tu rama de trabajo (no en main)
+
+# 1. Actualiza tu copia local de main antes de empezar
+git checkout main
+# Cambia a la rama principal para partir de la versión más reciente
+
+git pull origin main
+# Descarga los últimos cambios del repositorio remoto
+
+# 2. Verifica en qué rama estás
 git status
+# Debe mostrar "On branch main" — si no, cámbiate con "git checkout main"
 
-# 2. Prepara todos tus archivos modificados
+# 3. Crea tu rama de trabajo (usa SIEMPRE el mismo nombre en los pasos siguientes)
+git checkout -b apellido-tarea1
+# Crea una rama nueva y te cambia a ella automáticamente
+# Si la rama ya existe (por ejemplo, sesión anterior), usa en su lugar:
+# git checkout apellido-tarea1
+
+# --- Aquí realizas y guardas tus ejercicios ---
+
+# 4. Agrega los archivos modificados al área de staging
 git add .
+# Prepara todos los cambios (nuevos y modificados) para el commit
 
-# 3. Guarda tus cambios localmente con un mensaje descriptivo
+# 5. Guarda los cambios localmente con un mensaje descriptivo
 git commit -m "Tarea 1 completada - Tu Nombre"
+# Crea un punto de guardado en el historial con ese mensaje
 
-# 4. Sube tu rama a GitHub
-git push -u origin tu-nombre-tarea1
-```
+# 6. Sube tu rama a GitHub
+git push -u origin apellido-tarea1
+# Sube la rama al remoto y la vincula como upstream
+# (después de esto, solo necesitas "git push" para futuras subidas a esta misma rama)
 
-> 🌐 **Paso final en la Web:** Entra al enlace de GitHub del proyecto, haz clic en el botón verde **"Compare & pull request"**, escribe un mensaje breve y envíalo. ¡El profesor revisará tu código!
+# 7. Entrega final: abre un Pull Request en GitHub
+# Ve al repositorio en el navegador → "Compare & pull request" → describe tu trabajo → Create pull request
 
 ---
 
@@ -31,32 +47,34 @@ git push -u origin tu-nombre-tarea1
 Una vez que el profesor haya aprobado y unido (Merged) las tareas en GitHub, sigue esta rutina para limpiar tu computadora y empezar el siguiente ejercicio:
 
 ```bash
+# 0. Verifica que no tengas cambios sin guardar en tu rama actual
+git status
+# Si aparece algo sin comitear, guárdalo o descártalo antes de continuar
+
 # 1. Regresa a la rama principal
 git checkout main
+# Cambia de tu rama de tarea de vuelta a main
 
 # 2. Descarga las tareas aprobadas de todos tus compañeros
-git pull
+git pull origin main
+# Trae los últimos cambios fusionados (merged) desde GitHub
 
 # 3. Borra tu rama de la tarea anterior (ya está a salvo en main)
-git branch -d tu-nombre-tarea1
+git branch -d apellido-tarea1
+# Elimina la rama local; si el PR se fusionó con "Squash and merge",
+# este comando puede fallar con "not fully merged" — en ese caso,
+# usa "git branch -D apellido-tarea1" (mayúscula) para forzar el borrado
 
 # 4. Crea y cámbiate a la rama de la nueva tarea
-git checkout -b tu-nombre-tarea2
+git checkout -b apellido-tarea2
+# Crea una rama nueva a partir de la main actualizadagit 
 ```
 
 ---
 
 ## 🚨 En Caso de Emergencia (Errores Comunes)
 
-### ❌ Error: "Protected branch..." al hacer git push
-* **Por qué pasa:** Olvidaste crear tu rama y trabajaste directamente en `main`. Como `main` está protegida, GitHub bloquea tu subida.
-* **Solución (Ejecuta estos 3 comandos):**
-  ```bash
-  git branch tu-nombre-tarea1          # Guarda tus cambios en una rama nueva
-  git reset --hard origin/main         # Limpia tu rama main local
-  git checkout tu-nombre-tarea1        # Cámbiate a tu rama correcta
-  ```
-  *(Ahora ya puedes hacer el `git push -u origin tu-nombre-tarea1` con éxito)*
+
 
 ### ❌ Error: "error: The branch... is not fully merged"
 * **Por qué pasa:** Intentaste borrar tu rama vieja, pero el profesor aún no la aprueba en GitHub o no has hecho `git pull`.
