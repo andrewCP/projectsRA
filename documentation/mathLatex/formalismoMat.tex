@@ -64,6 +64,56 @@ F_z
 \end{bmatrix}
 \end{equation}
 
+\paragraph{Javier Alejandro Tellez Paez}
+
+\section*{Dinámica}
+
+Ecuación general de transporte (derivada de un vector en marco inercial vs.\ body):
+\begin{equation}
+\left(\frac{d\vec{A}}{dt}\right)_{I}=\left(\frac{d\vec{A}}{dt}\right)_{b}+\vec{\omega}\times\vec{A}
+\end{equation}
+
+Momento lineal $\vec{P}=m\vec{V}$ y momento angular $\vec{H}=\mathbf{I}\vec{\omega}$. Con $m$ constante:
+\begin{align}
+\frac{d\vec{P}}{dt}&=\frac{d(m\vec{V})}{dt}=m\,\frac{d\vec{V}}{dt}=\sum \vec{F}\\[4pt]
+\frac{d(\mathbf{I}\vec{\omega})}{dt}&=\mathbf{I}\,\frac{d\vec{\omega}}{dt}=\sum \vec{\tau}
+\end{align}
+
+Aplicado al problema, con $(\cdot)_{I}$ marco inercial y $(\cdot)_{b}$ marco body:
+\begin{align}
+m\left(\frac{d\vec{V}}{dt}\right)_{I}&=\sum \vec{F}\\[4pt]
+m\left[\left(\frac{d\vec{V}}{dt}\right)_{b}+\vec{\omega}\times\vec{V}_{b}\right]&=\sum \vec{F}
+\end{align}
+
+En componentes, con $\vec{\omega}=(p,q,r)$ y $\vec{V}_{b}=(u,v,w)$:
+\begin{equation}
+m\begin{bmatrix}\dot{u}\\[2pt]\dot{v}\\[2pt]\dot{w}\end{bmatrix}
++m\begin{vmatrix}\hat{\imath}&\hat{\jmath}&\hat{k}\\ p&q&r\\ u&v&w\end{vmatrix}
+=\begin{bmatrix}F_{x}\\[2pt]F_{y}\\[2pt]F_{z}\end{bmatrix}
+\end{equation}
+
+Desarrollando el producto cruz:
+\begin{equation}
+m\begin{bmatrix}\dot{u}\\[2pt]\dot{v}\\[2pt]\dot{w}\end{bmatrix}
++m\begin{bmatrix}qw-rv\\[2pt]ru-pw\\[2pt]pv-qu\end{bmatrix}
+=\begin{bmatrix}F_{x}\\[2pt]F_{y}\\[2pt]F_{z}\end{bmatrix}
+\end{equation}
+
+Despejando las aceleraciones:
+\begin{equation}
+\begin{bmatrix}\dot{u}\\[2pt]\dot{v}\\[2pt]\dot{w}\end{bmatrix}
+=\frac{1}{m}\begin{bmatrix}F_{x}\\[2pt]F_{y}\\[2pt]F_{z}\end{bmatrix}
+-\begin{bmatrix}qw-rv\\[2pt]ru-pw\\[2pt]pv-qu\end{bmatrix}
+\end{equation}
+
+Forma final para simulación:
+\begin{equation}
+\boxed{
+\begin{bmatrix}\dot{u}\\[2pt]\dot{v}\\[2pt]\dot{w}\end{bmatrix}
+=\frac{1}{m}\begin{bmatrix}F_{x}\\[2pt]F_{y}\\[2pt]F_{z}\end{bmatrix}
++\begin{bmatrix}rv-qw\\[2pt]pw-ru\\[2pt]qu-pv\end{bmatrix}}
+\end{equation}
+
 
 
 
