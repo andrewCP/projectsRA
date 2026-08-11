@@ -183,11 +183,155 @@
 \end{equation}
 \paragraph{Nombre del estudiante 3}
 
-\paragraph{Nombre del estudiante 4}
+\paragraph{David Santiago Sanabria Romero}
+\newcommand{\C}[1]{\cos(#1)}
+\newcommand{\Sin}[1]{\sin(#1)}
+\section*{Cinemática y Transformación de Coordenadas}
+
+% --- 1. Transformación v2 -> b ---
+\subsection*{1. Transformación del marco $v_2$ al marco del cuerpo $b$}
+\begin{equation}
+\begin{bmatrix}
+\hat{x}_{v2} \\
+\hat{y}_{v2} \\
+\hat{z}_{v2}
+\end{bmatrix}
+=
+\begin{bmatrix}
+1 & 0 & 0 \\
+0 & \cos\phi & -\sin\phi \\
+0 & \sin\phi & \cos\phi
+\end{bmatrix}
+\begin{bmatrix}
+\hat{x}_b \\
+\hat{y}_b \\
+\hat{z}_b
+\end{bmatrix}
+\end{equation}
+
+Proyección del eje $\hat{y}_{v2}$:
+\begin{equation}
+\hat{y}_{v2} = \cos(\phi)\hat{y}_b - \sin(\phi)\hat{z}_b
+\end{equation}
+
+\vspace{0.3cm}
+
+% --- 2. Transformación v1 -> b ---
+\subsection*{2. Transformación del marco $v_1$ al marco del cuerpo $b$}
+
+Producto de matrices de rotación $R_y(\theta) \cdot R_x(\phi)$:
+\begin{equation}
+\begin{bmatrix}
+\hat{x}_{v1} \\
+\hat{y}_{v1} \\
+\hat{z}_{v1}
+\end{bmatrix}
+=
+\begin{bmatrix}
+\cos\theta & 0 & \sin\theta \\
+0 & 1 & 0 \\
+-\sin\theta & 0 & \cos\theta
+\end{bmatrix}
+\begin{bmatrix}
+1 & 0 & 0 \\
+0 & \cos\phi & -\sin\phi \\
+0 & \sin\phi & \cos\phi
+\end{bmatrix}
+\begin{bmatrix}
+\hat{x}_b \\
+\hat{y}_b \\
+\hat{z}_b
+\end{bmatrix}
+\end{equation}
+
+Matriz de transformación resultante:
+\begin{equation}
+\begin{bmatrix}
+\hat{x}_{v1} \\
+\hat{y}_{v1} \\
+\hat{z}_{v1}
+\end{bmatrix}
+=
+\begin{bmatrix}
+\cos\theta & \sin\theta\sin\phi & \sin\theta\cos\phi \\
+0 & \cos\phi & -\sin\phi \\
+-\sin\theta & \cos\theta\sin\phi & \cos\phi\cos\theta
+\end{bmatrix}
+\begin{bmatrix}
+\hat{x}_b \\
+\hat{y}_b \\
+\hat{z}_b
+\end{bmatrix}
+\end{equation}
+
+Proyección del eje $\hat{z}_{v1}$:
+\begin{equation}
+\hat{z}_{v1} = -\sin(\theta)\hat{x}_b + \cos(\theta)\sin(\phi)\hat{y}_b + \cos(\phi)\cos(\theta)\hat{z}_b
+\end{equation}
+
+\vspace{0.3cm}
+
+% --- 3. Velocidad Angular ---
+\subsection*{3. Vector de Velocidad Angular ($\boldsymbol{\omega}_{I}^b$)}
+
+Suma de las velocidades angulares sobre sus respectivos ejes de rotación intermedios:
+\begin{equation}
+\begin{aligned}
+\bm{\omega}_{I}^b &= \dot{\phi} \hat{x}_b 
++ \dot{\theta} \left( \cos\phi \hat{y}_b - \sin\phi \hat{z}_b \right) \\
+&\quad + \dot{\psi} \left( -\sin\theta \hat{x}_b + \cos\theta\sin\phi \hat{y}_b + \cos\phi\cos\theta \hat{z}_b \right)
+\end{aligned}
+\end{equation}
+
+Agrupando componentes por los ejes del cuerpo ($\hat{x}_b, \hat{y}_b, \hat{z}_b$):
+\begin{equation}
+\begin{aligned}
+\bm{\omega}_{I}^b &= \left( \dot{\phi} - \dot{\psi}\sin\theta \right) \hat{x}_b \\
+&\quad + \left( \dot{\theta}\cos\phi + \dot{\psi}\cos\theta\sin\phi \right) \hat{y}_b \\
+&\quad + \left( -\dot{\theta}\sin\phi + \dot{\psi}\cos\phi\cos\theta \right) \hat{z}_b
+\end{aligned}
+\end{equation}
+
+\vspace{0.3cm}
+
+% --- 4. Relación de p, q, r ---
+\subsection*{4. Ecuaciones Cinemáticas de Euler}
+
+Componentes de la velocidad angular en los ejes fijos al cuerpo ($p, q, r$):
+\begin{align}
+p &= \dot{\phi} - \dot{\psi}\sin\theta \\
+q &= \dot{\theta}\cos\phi + \dot{\psi}\cos\theta\sin\phi \\
+r &= -\dot{\theta}\sin\phi + \dot{\psi}\cos\phi\cos\theta
+\end{align}
+
+Expresado en forma matricial:
+\begin{equation}
+\begin{bmatrix}
+p \\
+q \\
+r
+\end{bmatrix}
+=
+\begin{bmatrix}
+1 & 0 & -\sin\theta \\
+0 & \cos\phi & \cos\theta\sin\phi \\
+0 & -\sin\phi & \cos\phi\cos\theta
+\end{bmatrix}
+\begin{bmatrix}
+\dot{\phi} \\
+\dot{\theta} \\
+\dot{\psi}
+\end{bmatrix}
+\end{equation}
+
+Por lo tanto, la tasa de variación de los ángulos de Euler es función de las velocidades angulares del cuerpo:
+\begin{equation}
+(\dot{\phi}, \dot{\theta}, \dot{\psi}) = f (p, q, r)
+\end{equation}
 
 \paragraph{Profe}
 
-subsection{Dinámica traslacional en el marco del cuerpo}
+\subsection{Dinámica traslacional en el marco del cuerpo}
 
 \subsubsection{Segunda ley de Newton}
 
