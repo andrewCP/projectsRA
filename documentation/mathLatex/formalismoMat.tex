@@ -421,7 +421,122 @@ Forma final para simulación:
 +\begin{bmatrix}rv-qw\\[2pt]pw-ru\\[2pt]qu-pv\end{bmatrix}}
 \end{equation}
 
+\paragraph{Laura Daniela Castaño Silva}
+\textbf{Matriz de Asignación de Actuadores Mixed}
 
+\subsection*{1. Vectores de Longitud y Empuje}
+
+Primero, definimos los vectores de longitud (la posición de cada motor con respecto al centro del dron). Usamos la letra $l$ para representar esta distancia en los ejes X e Y:
+
+\begin{center}
+\begin{tikzpicture}[scale=1.5, >=stealth]
+    % Ejes coordenados (xb, yb)
+    \draw[dashed, thick] (0,0) -- (0,2.8) node[right] {$x_b$};
+    \draw[dashed, thick] (0,0) -- (2.8,0) node[right] {$y_b$};
+
+    % Brazos del dron
+    \draw[very thick] (0,-2) -- (0,2);
+    \draw[very thick] (-2,0) -- (2,0);
+
+    % Distancias l (en color azul)
+    \node[blue, right] at (0, 1) {$l$};
+    \node[blue, right] at (0, -1) {$l$};
+    \node[blue, above] at (1, 0) {$l$};
+    \node[blue, above] at (-1, 0) {$l$};
+
+    % Motores (círculos) y números
+    \filldraw[fill=white, thick] (0,2) circle (0.15) node[gray, above=8pt] {\textbf{3}};
+    \filldraw[fill=white, thick] (0,-2) circle (0.15) node[gray, below=8pt] {\textbf{4}};
+    \filldraw[fill=white, thick] (2,0) circle (0.15) node[black, right=8pt] {\textbf{1}};
+    \filldraw[fill=white, thick] (-2,0) circle (0.15) node[black, left=8pt] {\textbf{2}};
+
+    % Flechas de rotación CW (magenta) - Motores 3 y 4
+    \draw[->, thick, magenta] (-0.25, 2.15) arc[start angle=135, end angle=-45, radius=0.35];
+    \node[magenta, right] at (0.3, 2.15) {CW};
+
+    \draw[->, thick, magenta] (-0.25, -1.85) arc[start angle=135, end angle=-45, radius=0.35];
+    \node[magenta, right] at (0.3, -1.85) {CW};
+
+    % Flechas de rotación CCW (rojo) - Motores 1 y 2
+    \draw[->, thick, red] (2.25, -0.15) arc[start angle=-45, end angle=135, radius=0.35];
+    \node[red, above] at (2.15, 0.3) {CCW};
+
+    \draw[->, thick, red] (-1.75, -0.15) arc[start angle=-45, end angle=135, radius=0.35];
+    \node[red, above] at (-1.85, 0.3) {CCW};
+\end{tikzpicture}
+\end{center}
+
+\begin{align*}
+\vec{r}_{3} &= \begin{bmatrix} l \\ 0 \\ 0 \end{bmatrix}, & \vec{r}_{4} &= \begin{bmatrix} -l \\ 0 \\ 0 \end{bmatrix} \\
+\vec{r}_{1} &= \begin{bmatrix} 0 \\ l \\ 0 \end{bmatrix}, & \vec{r}_{2} &= \begin{bmatrix} 0 \\ -l \\ 0 \end{bmatrix}
+\end{align*}
+
+Luego definimos el vector empuje o fuerza total. Como los motores apuntan hacia arriba, la fuerza va en el eje Z:
+\begin{equation*}
+\vec{F}_{k} = \begin{bmatrix} 0 \\ 0 \\ f_{t} \end{bmatrix}
+\end{equation*}
+
+\subsection*{2. Matrices de Torques (Eje Y - Inclinación / Cabeceo)}
+
+Ahora calculamos las matrices de Torques respecto a la distancia y el empuje para los motores del eje X (motores 3 y 4). El torque ($\tau$) es el resultado del producto cruz entre el vector de posición y el de fuerza:
+
+\begin{align*}
+\tau_{3} &= \vec{r}_{3} \times \vec{F}_{t} \\
+\tau_{4} &= \vec{r}_{4} \times \vec{F}_{t}
+\end{align*}
+
+Al realizar el producto cruz matemáticamente, la fuerza resultante recae sobre el eje Y:
+\begin{align*}
+\tau_{3} &= \begin{bmatrix} 0 \\ -l f_{t3} \\ 0 \end{bmatrix} \\
+\tau_{4} &= \begin{bmatrix} 0 \\ l f_{t4} \\ 0 \end{bmatrix}
+\end{align*}
+
+Se suma el torque total para ese eje. Ahora, el torque que puede presentar inclinación $\theta$ respecto a $f_{t3}$ y $f_{t4}$ es:
+\begin{align*}
+T_{\theta} &= T_{y} = l f_{t3} - l f_{t4} \\
+T_{y} &= l (f_{t3} - f_{t4})
+\end{align*}
+
+Sabemos que la fuerza de empuje de un motor se relaciona con la velocidad de su hélice ($\Omega$) mediante una constante $k_t$:
+\begin{equation*}
+f_{tk} = k_{t} \Omega_{k}^{2}
+\end{equation*}
+
+Reemplazando esto en nuestra ecuación de torque, obtenemos:
+\begin{equation*}
+T_{y} = l k_{t} (\Omega_{3}^{2} - \Omega_{4}^{2})
+\end{equation*}
+
+\subsection*{3. Matrices de Torques (Eje X - Alabeo)}
+
+Hacemos exactamente el mismo análisis, pero para el eje X, usando los motores 1 y 2 que están en el eje Y:
+\begin{align*}
+T_{1} &= \vec{r}_{1} \times \vec{F}_{t} = \begin{bmatrix} l f_{t1} \\ 0 \\ 0 \end{bmatrix} \\
+T_{2} &= \vec{r}_{2} \times \vec{F}_{t} = \begin{bmatrix} -l f_{t2} \\ 0 \\ 0 \end{bmatrix}
+\end{align*}
+
+Se analiza en el eje X, sumando ambos torques ($\tau_{x} = \tau_{1} + \tau_{2}$). El torque que puede presentar inclinación respecto a $f_{t1}$ y $f_{t2}$ es:
+\begin{align*}
+T_{\phi} &= T_{x} = l f_{t2} - l f_{t1} \\
+T_{x} &= l (f_{t2} - f_{t1})
+\end{align*}
+
+Reemplazando nuevamente la fuerza por la velocidad angular al cuadrado, obtenemos:
+\begin{equation*}
+T_{x} = l k_{t} (\Omega_{2}^{2} - \Omega_{1}^{2})
+\end{equation*}
+
+\vspace{0.5cm}
+\textbf{Nota sobre la constante de empuje:} Teniendo en cuenta la aerodinámica de las hélices, la constante $k_t$ se define como:
+\begin{equation*}
+K_{t} = C_{l} \rho A
+\end{equation*}
+Donde:
+\begin{itemize}
+    \item $C_{l} = \text{Coeficiente de empuje}$
+    \item $\rho = \text{Densidad del aire}$
+    \item $A = \text{Área de hélice}$
+\end{itemize}
 
 
 \end{document}
