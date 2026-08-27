@@ -3,7 +3,7 @@
 \usepackage{tikz}
 \usepackage{tikz-3dplot}
 \usepackage[spanish]{babel}
-
+\usepackage{fontspec}
 \usepackage{amsmath, amssymb}
 \usepackage{bm}
 
@@ -275,7 +275,66 @@ Proyección del eje $\hat{z}_{v1}$:
 
 % --- 3. Velocidad Angular ---
 \subsection*{3. Vector de Velocidad Angular ($\boldsymbol{\omega}_{I}^b$)}
+Se realizaron las transformaciones de los ejes de los marcos intermedios $v_2$ y $v_1$ respecto al marco del cuerpo $b$.\\
 
+
+\[
+\boldsymbol{\omega}_{I}^b = \dot{\phi}\,\hat{x} + \dot{\theta}\,\hat{y}^{v_2} + \dot{\psi}\,\hat{z}^{v_1}
+\]
+
+\begin{gather}
+\begin{bmatrix}
+\hat{x}^{v_2}\\
+\hat{y}^{v_2}\\
+\hat{z}^{v_2}
+\end{bmatrix}
+=
+R_b^{v_2}
+\begin{bmatrix}
+\hat{x}^{b}\\
+\hat{y}^{b}\\
+\hat{z}^{b}
+\end{bmatrix}
+\\[6pt]
+\begin{bmatrix}
+\hat{x}^{v_2}\\
+\hat{y}^{v_2}\\
+\hat{z}^{v_2}
+\end{bmatrix}
+=
+(R_{v_2}^{b})^T
+\begin{bmatrix}
+\hat{x}^{b}\\
+\hat{y}^{b}\\
+\hat{z}^{b}
+\end{bmatrix}
+\\[6pt]
+(R_{v_2}^{b})^T
+=
+\begin{bmatrix}
+1 & 0 & 0\\
+0 & \cos\phi & -\sin\phi\\
+0 & \sin\phi & \cos\phi
+\end{bmatrix}
+\\[6pt]
+\begin{bmatrix}
+\hat{x}^{v_2}\\
+\hat{y}^{v_2}\\
+\hat{z}^{v_2}
+\end{bmatrix}=
+\begin{bmatrix}
+1 & 0 & 0\\
+0 & \cos\phi & -\sin\phi\\
+0 & \sin\phi & \cos\phi
+\end{bmatrix}
+\begin{bmatrix}
+\hat{x}^{b}\\
+\hat{y}^{b}\\
+\hat{z}^{b}
+\end{bmatrix}
+=\hat{y}^{v_2}= cos\phi\hat{y}^b-sen\phi\hat{z}^b
+\end{gather}
+\paragraph{Daniel Quilaguy Correa \\}
 Suma de las velocidades angulares sobre sus respectivos ejes de rotación intermedios:
 \begin{equation}
 \begin{aligned}
