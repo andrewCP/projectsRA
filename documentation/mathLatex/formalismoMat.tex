@@ -225,7 +225,233 @@ F_z
 \end{bmatrix}
 \end{equation}
 
-
-
+\paragraph{Angélica Gómez Villamizar}
+Relación entre aceleraciones y matriz de rotación
+\begin{equation}
+\begin{bmatrix}
+a_{xb} \\
+a_{yb} \\
+a_{zb}
+\end{bmatrix}
+=
+R_I^b
+\begin{bmatrix}
+0 \\
+0 \\
+g
+\end{bmatrix}
+\end{equation}
+ Componente $x$
+\begin{equation}
+a_{xb} = g\sin(\theta)
+\end{equation}
+Componente $y$
+\begin{equation}
+a_{yb} = -g\cos(\theta)\sin(\phi)
+\end{equation}
+Componente $z$
+\begin{equation}
+a_{zb} = -g\cos(\theta)\cos(\phi)
+\end{equation}
+\begin{equation}
+-g\cos(\theta)
+=
+\frac{a_{yb}}{\sin(\phi)}
+\end{equation}
+\begin{equation}
+-g\cos(\theta)
+=
+\frac{a_{zb}}{\cos(\phi)}
+\end{equation}
+Relación entre componentes
+\begin{equation}
+\frac{a_{yb}}{\sin(\phi)}
+=
+\frac{a_{zb}}{\cos(\phi)}
+\end{equation}
+Relación trigonométrica
+\begin{equation}
+\frac{\sin(\phi)}{\cos(\phi)}
+=
+\frac{a_{yb}}{a_{zb}}
+\end{equation}
+Estimación de $\phi$ mediante el acelerómetro
+\begin{equation}
+\dot{\phi}_{\mathrm{accel}}
+=
+\tan^{-1}
+\left(
+\frac{a_{yb}}{a_{zb}}
+\right)
+\end{equation}
+Estimación de $\theta$ mediante el acelerómetro
+\begin{equation}
+\dot{\theta}_{\mathrm{accel}}
+=
+\sin^{-1}
+\left(
+\frac{a_{xb}}{g}
+\right)
+\end{equation}
+Relación entre velocidades angulares y ángulos
+\begin{equation}
+\begin{bmatrix}
+\dot{\phi} \\
+\dot{\theta}
+\end{bmatrix}
+=
+\begin{bmatrix}
+1 & \sin(\phi)\tan(\theta) & \cos(\phi)\tan(\theta) \\
+0 & \cos(\phi) & -\sin(\phi)
+\end{bmatrix}
+\begin{bmatrix}
+p \\
+q \\
+r
+\end{bmatrix}
+\end{equation}
+Velocidad angular de $\phi$
+\begin{equation}
+\dot{\phi}_{k}
+=
+p
++
+\sin(\phi)\tan(\theta)q
++
+\cos(\phi)\tan(\theta)r
+\end{equation}
+Velocidad angular de $\theta$
+\begin{equation}
+\dot{\theta}_{k}
+=
+\cos(\phi)q
+-
+\sin(\phi)r
+\end{equation}
+Actualización de $\phi$
+\begin{equation}
+\phi_{k+1}
+=
+\phi_k
++
+T_s\dot{\phi}_k
+\end{equation}
+Actualización de $\phi$ expandida
+\begin{equation}
+\phi_{k+1}
+=
+\phi_k
++
+T_s
+\left[
+p
++
+\sin(\phi)\tan(\theta)q
++
+\cos(\phi)\tan(\theta)r
+\right]
+\end{equation}
+Actualización de $\theta$
+\begin{equation}
+\theta_{k+1}
+=
+\theta_k
++
+T_s\dot{\theta}_k
+\end{equation}
+ Modelo de espacio de estados no lineal
+\begin{equation}
+x_{k+1}
+=
+f(x_k,u_k)
+\end{equation}
+Modelo linealizado
+\begin{equation}
+x_{k+1}
+=
+Ax_k
++
+Bu_k
+\end{equation}
+Matriz de transición $\Phi_k$
+\begin{equation}
+\Phi_k
+=
+\begin{bmatrix}
+\dfrac{\partial\phi_{k+1}}{\partial\phi_k} &
+\dfrac{\partial\phi_{k+1}}{\partial\theta_k} \\[8pt]
+\dfrac{\partial\theta_{k+1}}{\partial\phi_k} &
+\dfrac{\partial\theta_{k+1}}{\partial\theta_k}
+\end{bmatrix}
+\end{equation}
+ Matriz de observación
+\begin{equation}
+H_k
+=
+\begin{bmatrix}
+1 & 0 \\
+0 & 1
+\end{bmatrix}
+\end{equation}
+Ganancia de Kalman
+\begin{equation}
+K_k
+=
+P_{k^-}H_k^T
+\left(
+H_kP_{k^-}H_k^T+R_k
+\right)^{-1}
+\end{equation}
+Actualización del estado
+\begin{equation}
+X_k
+=
+X_{k^-}
++
+K_k
+\left(
+Z_k-H_kX_{k^-}
+\right)
+\end{equation}
+ Matriz de covarianza del ruido del proceso
+\begin{equation}
+Q
+=
+\begin{bmatrix}
+\sigma_{\phi_{\mathrm{gyr}}}^{2} & 0 \\
+0 & \sigma_{\theta_{\mathrm{gyr}}}^{2}
+\end{bmatrix}
+\end{equation}
+ Actualización de la matriz de covarianza
+\begin{equation}
+P_k
+=
+\left(
+I-K_kH_k
+\right)P_{k^-}
+\end{equation}
+ Matriz de covarianza del ruido de medición
+\begin{equation}
+R
+=
+\begin{bmatrix}
+\sigma_{\phi_{\mathrm{accel}}}^{2} & 0 \\
+0 & \sigma_{\theta_{\mathrm{accel}}}^{2}
+\end{bmatrix}
+\end{equation}
+ Modelo de transición
+\begin{equation}
+x_{k+1}
+=
+f(x_k,u_k)
+\end{equation}
+ Predicción de la covarianza
+\begin{equation}
+P_{k+1}
+=
+\Phi_kP_k\Phi_k^T
++
+Q_k
+\end{equation}
 
 \end{document}
