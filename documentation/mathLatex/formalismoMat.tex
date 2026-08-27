@@ -970,7 +970,319 @@ Forma final para simulación:
 =\frac{1}{m}\begin{bmatrix}F_{x}\\[2pt]F_{y}\\[2pt]F_{z}\end{bmatrix}
 +\begin{bmatrix}rv-qw\\[2pt]pw-ru\\[2pt]qu-pv\end{bmatrix}}
 \end{equation}
+\section*{Modelo cinemático del cuadricóptero - andres felipe serrano alvarez}
 
+La relación entre las velocidades lineales expresadas en el sistema
+del cuerpo y las velocidades de posición en el sistema inercial está
+dada por
+
+\begin{equation}
+\begin{bmatrix}
+\dot{P}_N \\
+\dot{P}_E \\
+\dot{P}_D
+\end{bmatrix}
+=
+R_b^I
+\begin{bmatrix}
+u\\
+v\\
+w
+\end{bmatrix}.
+\end{equation}
+
+Por otra parte, la relación entre las velocidades angulares del cuerpo
+y las tasas de cambio de los ángulos de Euler es
+
+\begin{equation}
+\begin{bmatrix}
+\dot{\phi}\\
+\dot{\theta}\\
+\dot{\psi}
+\end{bmatrix}
+=
+B^{-1}
+\begin{bmatrix}
+p\\
+q\\
+r
+\end{bmatrix}.
+\end{equation}
+
+En forma compacta, el modelo cinemático puede escribirse como
+
+\begin{equation}
+\boxed{
+\dot{\bm{\eta}}
+=
+J(\bm{\eta})\bm{\nu}
+}
+\end{equation}
+
+donde $\bm{\eta}$ representa las variables de posición y orientación,
+mientras que $\bm{\nu}$ contiene las velocidades lineales y angulares.
+
+
+% =========================================================
+\section*{Condiciones de movimiento}
+
+Se consideran las siguientes velocidades lineales:
+
+\begin{align}
+u &= \text{constante},\\
+v &= 0\;\text{m/s},\\
+w &= 0\;\text{m/s}.
+\end{align}
+
+Para las velocidades angulares:
+
+\begin{align}
+p &= 0,\\
+q &= 0,\\
+r &= \text{constante}.
+\end{align}
+
+Las condiciones iniciales para los ángulos de Euler son
+
+\begin{equation}
+\phi(0)=0,\qquad
+\theta(0)=0,\qquad
+\psi(0)=0.
+\end{equation}
+
+Para la posición inicial se considera
+
+\begin{equation}
+P_N(0)=0,\qquad
+P_E(0)=0,\qquad
+P_D(0)=1\;\text{m}.
+\end{equation}
+
+
+% =========================================================
+\section*{Transformación de velocidades angulares}
+
+La relación directa entre las tasas de los ángulos de Euler y las
+velocidades angulares del cuerpo puede expresarse como
+
+\begin{equation}
+\begin{bmatrix}
+p\\
+q\\
+r
+\end{bmatrix}
+=
+\begin{bmatrix}
+1 & 0 & -\sin\theta\\
+0 & \cos\phi & \sin\phi\cos\theta\\
+0 & -\sin\phi & \cos\phi\cos\theta
+\end{bmatrix}
+\begin{bmatrix}
+\dot{\phi}\\
+\dot{\theta}\\
+\dot{\psi}
+\end{bmatrix}.
+\end{equation}
+
+Por lo tanto,
+
+\begin{equation}
+\begin{bmatrix}
+\dot{\phi}\\
+\dot{\theta}\\
+\dot{\psi}
+\end{bmatrix}
+=
+\begin{bmatrix}
+1 &
+\sin\phi\tan\theta &
+\cos\phi\tan\theta
+\\[2mm]
+0 &
+\cos\phi &
+-\sin\phi
+\\[2mm]
+0 &
+\dfrac{\sin\phi}{\cos\theta} &
+\dfrac{\cos\phi}{\cos\theta}
+\end{bmatrix}
+\begin{bmatrix}
+p\\
+q\\
+r
+\end{bmatrix}.
+\end{equation}
+
+
+% =========================================================
+\section*{Evaluación para $\phi=0$ y $\theta=0$}
+
+Considerando
+
+\begin{equation}
+\phi=0,
+\qquad
+\theta=0,
+\end{equation}
+
+se tiene
+
+\begin{equation}
+\sin(0)=0,
+\qquad
+\cos(0)=1,
+\qquad
+\tan(0)=0.
+\end{equation}
+
+Por lo tanto, la matriz de transformación se convierte en la matriz
+identidad:
+
+\begin{equation}
+\begin{bmatrix}
+\dot{\phi}\\
+\dot{\theta}\\
+\dot{\psi}
+\end{bmatrix}
+=
+\begin{bmatrix}
+1&0&0\\
+0&1&0\\
+0&0&1
+\end{bmatrix}
+\begin{bmatrix}
+0\\
+0\\
+r
+\end{bmatrix}.
+\end{equation}
+
+Entonces,
+
+\begin{equation}
+\boxed{
+\begin{aligned}
+\dot{\phi} &= 0,\\
+\dot{\theta} &= 0,\\
+\dot{\psi} &= r.
+\end{aligned}
+}
+\end{equation}
+
+
+% =========================================================
+\section*{Obtención del ángulo de yaw}
+
+Como
+
+\begin{equation}
+\dot{\psi}=r,
+\end{equation}
+
+entonces
+
+\begin{equation}
+\frac{d\psi(t)}{dt}=r.
+\end{equation}
+
+Integrando,
+
+\begin{equation}
+\boxed{
+\psi(t)=rt+C
+}
+\end{equation}
+
+y debido a que
+
+\begin{equation}
+\psi(0)=0,
+\end{equation}
+
+se obtiene
+
+\begin{equation}
+C=0.
+\end{equation}
+
+Por lo tanto,
+
+\begin{equation}
+\boxed{
+\psi(t)=rt
+}
+\end{equation}
+
+Además,
+
+\begin{equation}
+\phi(t)=0,
+\qquad
+\theta(t)=0.
+\end{equation}
+
+
+% =========================================================
+\section*{Matriz de rotación general}
+
+La matriz de rotación del sistema del cuerpo al sistema inercial,
+utilizando la secuencia de Euler ZYX, es
+
+\begin{equation}
+R_b^I(\phi,\theta,\psi)
+=
+\begin{bmatrix}
+%
+\cos\theta\cos\psi
+&
+\sin\phi\sin\theta\cos\psi-\cos\phi\sin\psi
+&
+\cos\phi\sin\theta\cos\psi+\sin\phi\sin\psi
+\\[2mm]
+%
+\cos\theta\sin\psi
+&
+\sin\phi\sin\theta\sin\psi+\cos\phi\cos\psi
+&
+\cos\phi\sin\theta\sin\psi-\sin\phi\cos\psi
+\\[2mm]
+%
+-\sin\theta
+&
+\sin\phi\cos\theta
+&
+\cos\phi\cos\theta
+%
+\end{bmatrix}.
+\end{equation}
+
+
+% =========================================================
+\section*{Matriz de rotación para el caso estudiado}
+
+Como
+
+\begin{equation}
+\phi=0,
+\qquad
+\theta=0,
+\qquad
+\psi=rt,
+\end{equation}
+
+la matriz de rotación se reduce a
+
+\begin{equation}
+\boxed{
+R_b^I
+=
+\begin{bmatrix}
+\cos(rt) & -\sin(rt) & 0\\
+\sin(rt) &  \cos(rt) & 0\\
+0        & 0         & 1
+\end{bmatrix}
+}
+\end{equation}
 
 
 
