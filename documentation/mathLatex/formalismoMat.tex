@@ -421,6 +421,112 @@ Forma final para simulación:
 +\begin{bmatrix}rv-qw\\[2pt]pw-ru\\[2pt]qu-pv\end{bmatrix}}
 \end{equation}
 
+\section*{Ejercicio 2 Juan David Borda Arguello}
+
+Un veh\'iculo a\'ereo micro (MAV) realiza las siguientes rotaciones secuenciales respecto a sus ejes fijos al cuerpo:
+\[
+\text{roll} = \varphi = \frac{\pi}{4}, \qquad
+\text{pitch} = \theta = -\frac{\pi}{3}, \qquad
+\text{yaw} = \psi = \frac{\pi}{4}
+\]
+
+Suponga una secuencia de rotaci\'on $Z$--$Y$--$X$.
+
+\begin{itemize}
+    \item[\textbf{a)}] Determine la matriz de rotaci\'on resultante $R_I^b$ que transforma un vector expresado en el marco inercial al marco del cuerpo.
+    \item[\textbf{b)}] Explique brevemente por qu\'e el orden de las rotaciones no puede intercambiarse arbitrariamente.
+    \item[\textbf{c)}] Si $v^b = \begin{bmatrix} 2 & 1 & -0.5 \end{bmatrix}^T$, calcule $v^I$.
+    \item[\textbf{d)}] Verifique que la magnitud de los vectores es invariante bajo la rotaci\'on.
+\end{itemize}
+
+\subsection*{a) Matriz de rotaci\'on $R_I^b$}
+
+Para la secuencia $Z$--$Y$--$X$ (yaw--pitch--roll), la matriz de rotaci\'on general es:
+
+\[
+R_I^b(\varphi,\theta,\psi) =
+\begin{bmatrix}
+c\theta \, c\psi & c\theta \, s\psi & -s\theta \\[4pt]
+s\varphi \, s\theta \, c\psi - c\varphi \, s\psi & s\varphi \, s\theta \, s\psi + c\varphi \, c\psi & s\varphi \, c\theta \\[4pt]
+c\varphi \, s\theta \, c\psi + s\varphi \, s\psi & c\varphi \, s\theta \, s\psi - s\varphi \, c\psi & c\varphi \, c\theta
+\end{bmatrix}
+\]
+
+Evaluando con $\varphi = \pi/4$, $\theta = -\pi/3$, $\psi = \pi/4$:
+\[
+c\varphi = s\varphi = \frac{\sqrt{2}}{2}, \qquad
+c\theta = \frac{1}{2}, \quad s\theta = -\frac{\sqrt{3}}{2}, \qquad
+c\psi = s\psi = \frac{\sqrt{2}}{2}
+\]
+
+Sustituyendo t\'ermino a t\'ermino se obtiene:
+
+\[
+R_I^b =
+\begin{bmatrix}
+\dfrac{\sqrt{2}}{4} & \dfrac{\sqrt{2}}{4} & \dfrac{\sqrt{3}}{2} \\[10pt]
+-\dfrac{(2+\sqrt{3})}{4} & \dfrac{(2-\sqrt{3})}{4} & \dfrac{\sqrt{2}}{4} \\[10pt]
+\dfrac{(2-\sqrt{3})}{4} & -\dfrac{(2+\sqrt{3})}{4} & \dfrac{\sqrt{2}}{4}
+\end{bmatrix}
+\]
+
+\subsection*{b}
+
+La multiplicaci\'on de matrices \textbf{no es conmutativa}. Al realizar rotaciones sobre los ejes y cambiar la secuencia (por ejemplo $Z$--$Y$--$X$ en lugar de $X$--$Y$--$Z$), cada rotaci\'on se aplica sobre un marco de referencia que ya fue modificado por la rotaci\'on anterior. Por lo tanto, alterar el orden de multiplicaci\'on de las matrices individuales dar\'ia como resultado una matriz de rotaci\'on total diferente (y por tanto una orientaci\'on final distinta del cuerpo).
+
+\subsection*{c) C\'alculo de $v^I$}
+
+Como $R_I^b$ es una matriz de rotaci\'on (ortogonal), se cumple $\left(R_I^b\right)^{-1} = \left(R_I^b\right)^T$, por lo que:
+
+\[
+v^I = \left(R_I^b\right)^T v^b
+\]
+
+Con $v^b = \begin{bmatrix} 2 \\ 1 \\ -0.5 \end{bmatrix}$:
+
+\[
+v^I =
+\begin{bmatrix}
+\dfrac{\sqrt{2}}{4} & -\dfrac{(2+\sqrt{3})}{4} & \dfrac{(2-\sqrt{3})}{4} \\[10pt]
+\dfrac{\sqrt{2}}{4} & \dfrac{(2-\sqrt{3})}{4} & -\dfrac{(2+\sqrt{3})}{4} \\[10pt]
+\dfrac{\sqrt{3}}{2} & \dfrac{\sqrt{2}}{4} & \dfrac{\sqrt{2}}{4}
+\end{bmatrix}
+\begin{bmatrix} 2 \\ 1 \\ -0.5 \end{bmatrix}
+\]
+
+Desarrollando cada componente:
+
+\[
+v^I_1 = \frac{\sqrt{2}}{2} - \frac{(2+\sqrt{3})}{4} - \frac{(2-\sqrt{3})}{8} \approx -0.2591
+\]
+\[
+v^I_2 = \frac{\sqrt{2}}{2} + \frac{(2-\sqrt{3})}{4} + \frac{(2+\sqrt{3})}{8} \approx 1.2406
+\]
+\[
+v^I_3 = \sqrt{3} + \frac{\sqrt{2}}{4} - \frac{\sqrt{2}}{8} \approx 1.9088
+\]
+
+\[
+\boxed{v^I \approx
+\begin{bmatrix}
+-0.2591 \\
+1.2406 \\
+1.9088
+\end{bmatrix}}
+\]
+
+\subsection*{d}
+
+\[
+\|v^b\| = \sqrt{(2)^2 + (1)^2 + (-0.5)^2} = \sqrt{4 + 1 + 0.25} = \sqrt{5.25} \approx 2.2912
+\]
+
+\[
+\|v^I\| = \sqrt{(-0.2591)^2 + (1.2406)^2 + (1.9088)^2} = \sqrt{0.0671 + 1.5391 + 3.6435} \approx \sqrt{5.2497} \approx 2.2912
+\]
+
+
+
 
 
 
