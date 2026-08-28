@@ -2324,6 +2324,163 @@ Entonces,
 }
 \end{equation}
 
+\paragraph{[Gabriela Cortes Urrego ]}
+
+\section{Diagrama del cuerpo rígido}
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[scale=1.1]
+        % Barra diagonal 1 (de arriba-izquierda a abajo-derecha)
+        \draw[thick] (-2,1.2) -- (2,-1.2);
+        % Barra diagonal 2 (de abajo-izquierda a arriba-derecha)
+        \draw[thick] (-2,-1.2) -- (2,1.2);
+
+        % Masa central R, M
+        \draw[thick] (0,0) circle (0.35);
+        \node at (0,0.15) {$R$};
+        \node at (0,-0.18) {$M$};
+
+        % Masa arriba-izquierda
+        \draw[thick] (-2.2,1.4) rectangle (-1.8,1.0);
+
+        % Masa arriba-derecha
+        \draw[thick] (1.8,1.4) rectangle (2.2,1.0);
+
+        % Masa abajo-izquierda
+        \draw[thick] (-2.2,-1.0) rectangle (-1.8,-1.4);
+
+        % Masa abajo-derecha (etiquetada m)
+        \draw[thick] (1.8,-1.0) rectangle (2.2,-1.4);
+        \node at (2.5,-1.2) {$m$};
+
+        % Etiquetas de longitud l en cada brazo
+        \node at (-1.15,0.75) {$l$};
+        \node at (1.15,0.75) {$l$};
+        \node at (-1.15,-0.75) {$l$};
+        \node at (1.15,-0.75) {$l$};
+    \end{tikzpicture}
+    \caption{Cuerpo rígido en forma de cruz, compuesto por masas puntuales unidas mediante barras de longitud $l$ que se cruzan en el centro, donde se ubica la masa central $R,M$.}
+    \label{fig:cuerpo_rigido}
+\end{figure}
+\section{Momentos de inercia}
+
+\begin{equation*}
+I_{yy} = I_{xx} = \dfrac{2MR^2}{5} + 2l^2 m
+\end{equation*}
+
+\begin{equation*}
+I_{zz} = \dfrac{2MR^2}{5} + 4l^2 m
+\end{equation*}
+
+\begin{equation*}
+I = 
+\begin{bmatrix}
+I_{xx} & 0 & 0 \\
+0 & I_{yy} & 0 \\
+0 & 0 & I_{zz}
+\end{bmatrix}
+\end{equation*}
+
+\section{Ecuación de momento angular}
+
+\begin{equation*}
+\left(\dfrac{d\vec H}{dt}\right)_I = \sum \vec{T}
+\end{equation*}
+
+\begin{equation*}
+\left(\dfrac{d(I\vec\omega)}{dt}\right)_I = \sum \vec{T}
+\end{equation*}
+
+\begin{equation*}
+\left(\dfrac{d(I\vec\omega)}{dt}\right)_b + \vec\omega \times I\vec\omega = \sum \vec{T}
+\end{equation*}
+
+\section{Desarrollo en forma matricial}
+
+\begin{equation*}
+I\left(\dfrac{d\vec\omega}{dt}\right)_b + 
+\begin{bmatrix} p & q & r \end{bmatrix} \times
+\begin{bmatrix}
+I_{xx} & 0 & 0 \\
+0 & I_{yy} & 0 \\
+0 & 0 & I_{zz}
+\end{bmatrix}
+\begin{bmatrix} p \\ q \\ r \end{bmatrix}
+=
+\begin{bmatrix} T_x \\ T_y \\ T_z \end{bmatrix}
+\end{equation*}
+
+\begin{equation*}
+I\left(\dfrac{d\vec\omega}{dt}\right)_b + 
+\begin{bmatrix} p & q & r \end{bmatrix} \times
+\begin{bmatrix} pI_{xx} \\ qI_{yy} \\ rI_{zz} \end{bmatrix}
+=
+\begin{bmatrix} T_x \\ T_y \\ T_z \end{bmatrix}
+\end{equation*}
+
+\begin{equation*}
+I
+\begin{bmatrix} \dot p \\ \dot q \\ \dot r \end{bmatrix}
++
+\begin{vmatrix}
+\hat\imath & \hat\jmath & \hat k \\
+p & q & r \\
+pI_{xx} & qI_{yy} & rI_{zz}
+\end{vmatrix}
+=
+\begin{bmatrix} T_x \\ T_y \\ T_z \end{bmatrix}
+\end{equation*}
+
+\section{Ecuaciones de Euler para el movimiento rotacional}
+
+\begin{equation*}
+I
+\begin{bmatrix} \dot p \\ \dot q \\ \dot r \end{bmatrix}
++
+\begin{bmatrix}
+qr(I_{zz}-I_{yy}) \\
+pr(I_{yy}-I_{zz}) \\
+pq(I_{yy}-I_{xx})
+\end{bmatrix}
+=
+\begin{bmatrix} T_x \\ T_y \\ T_z \end{bmatrix}
+\end{equation*}
+
+\begin{equation*}
+\begin{bmatrix} \dot p \\ \dot q \\ \dot r \end{bmatrix}
+=
+I^{-1}
+\begin{bmatrix}
+qr(I_{yy}-I_{zz}) \\
+pr(I_{zz}-I_{xx}) \\
+pq(I_{xx}-I_{yy})
+\end{bmatrix}
++
+I^{-1}
+\begin{bmatrix} T_x \\ T_y \\ T_z \end{bmatrix}
+\end{equation*}
+
+\section{Ecuaciones finales a simular}
+
+\begin{equation*}
+\begin{bmatrix} \dot p \\ \dot q \\ \dot r \end{bmatrix}
+=
+\begin{bmatrix}
+\dfrac{I_{yy}-I_{zz}}{I_{xx}}\,qr \\[8pt]
+\dfrac{I_{zz}-I_{xx}}{I_{yy}}\,pr \\[8pt]
+\dfrac{I_{xx}-I_{yy}}{I_{zz}}\,pq
+\end{bmatrix}
++
+\begin{bmatrix}
+\dfrac{T_x}{I_{xx}} \\[8pt]
+\dfrac{T_y}{I_{yy}} \\[8pt]
+\dfrac{T_z}{I_{zz}}
+\end{bmatrix}
+\end{equation*}
+
+
+
 
 % =========================================================
 \section*{Obtención del ángulo de yaw}
