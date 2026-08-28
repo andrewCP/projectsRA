@@ -1,11 +1,17 @@
 \documentclass{article}
-\usepackage{graphicx} % Required for inserting images
+
+\usepackage{graphicx}
+
+\usepackage{fontspec}
+\usepackage[spanish,es-noshorthands]{babel}
+
+\usepackage{amsmath,amssymb}
+\usepackage{bm}
+
 \usepackage{tikz}
 \usepackage{tikz-3dplot}
-\usepackage[spanish]{babel}
-\usepackage{fontspec}
-\usepackage{amsmath, amssymb}
-\usepackage{bm}
+\usetikzlibrary{arrows.meta}
+
 
 \title{Formalismo Matemático RA}
 \author{Estudiantes RA 2026 2 }
@@ -14,10 +20,472 @@
 \begin{document}
 
 \maketitle
-
 \section{Marcos de referencia y matrices de rotation}
+\paragraph{Osuna}
+\subsection*{Expresión del vector en ambos marcos}
 
-\paragraph{Nombre del estudiante 1: Ma Sofia Esguerra G cod 1804228}
+\begin{align}
+  \vec{a} &= a_x^{I}\,\hat{\imath}^{\,I} + a_y^{I}\,\hat{\jmath}^{\,I} + a_z^{I}\,\hat{k}^{\,I} \\[4pt]
+  \vec{a} &= a_x^{b}\,\hat{\imath}^{\,b} + a_y^{b}\,\hat{\jmath}^{\,b} + a_z^{b}\,\hat{k}^{\,b} \\[4pt]
+  a_x^{I}\,\hat{\imath}^{\,I} + a_y^{I}\,\hat{\jmath}^{\,I} + a_z^{I}\,\hat{k}^{\,I}
+  &= a_x^{b}\,\hat{\imath}^{\,b} + a_y^{b}\,\hat{\jmath}^{\,b} + a_z^{b}\,\hat{k}^{\,b}
+\end{align}
+
+\subsection*{Producto punto con $\hat{\imath}^{\,b}$}
+
+\begin{align}
+  \hat{\imath}^{\,b}\cdot\left( a_x^{I}\,\hat{\imath}^{\,I} + a_y^{I}\,\hat{\jmath}^{\,I} + a_z^{I}\,\hat{k}^{\,I} \right)
+  &= \hat{\imath}^{\,b}\cdot\left( a_x^{b}\,\hat{\imath}^{\,b} + a_y^{b}\,\hat{\jmath}^{\,b} + a_z^{b}\,\hat{k}^{\,b} \right) \\[6pt]
+  a_x^{I}\left(\hat{\imath}^{\,I}\cdot\hat{\imath}^{\,b}\right)
+  + a_y^{I}\left(\hat{\jmath}^{\,I}\cdot\hat{\imath}^{\,b}\right)
+  + a_z^{I}\left(\hat{k}^{\,I}\cdot\hat{\imath}^{\,b}\right)
+  &= a_x^{b}\left(\hat{\imath}^{\,b}\cdot\hat{\imath}^{\,b}\right)
+  + a_y^{b}\left(\hat{\jmath}^{\,b}\cdot\hat{\imath}^{\,b}\right)
+  + a_z^{b}\left(\hat{k}^{\,b}\cdot\hat{\imath}^{\,b}\right) \\[6pt]
+  \hat{\imath}^{\,b}\cdot\hat{\imath}^{\,b} = 1, \qquad
+  \hat{\jmath}^{\,b}\cdot\hat{\imath}^{\,b} &= 0, \qquad
+  \hat{k}^{\,b}\cdot\hat{\imath}^{\,b} = 0 \\[6pt]
+  a_x^{I}\left(\hat{\imath}^{\,I}\cdot\hat{\imath}^{\,b}\right)
+  + a_y^{I}\left(\hat{\jmath}^{\,I}\cdot\hat{\imath}^{\,b}\right)
+  + a_z^{I}\left(\hat{k}^{\,I}\cdot\hat{\imath}^{\,b}\right)
+  &= a_x^{b}(1) + a_y^{b}(0) + a_z^{b}(0) \\[6pt]
+  &= a_x^{b} + 0 + 0
+\end{align}
+
+\begin{equation}
+  \boxed{\;a_x^{b} = a_x^{I}\left(\hat{\imath}^{\,I}\cdot\hat{\imath}^{\,b}\right)
+  + a_y^{I}\left(\hat{\jmath}^{\,I}\cdot\hat{\imath}^{\,b}\right)
+  + a_z^{I}\left(\hat{k}^{\,I}\cdot\hat{\imath}^{\,b}\right)\;}
+\end{equation}
+
+\subsection*{Producto punto con $\hat{\jmath}^{\,b}$}
+
+\begin{align}
+  \hat{\jmath}^{\,b}\cdot\left( a_x^{I}\,\hat{\imath}^{\,I} + a_y^{I}\,\hat{\jmath}^{\,I} + a_z^{I}\,\hat{k}^{\,I} \right)
+  &= \hat{\jmath}^{\,b}\cdot\left( a_x^{b}\,\hat{\imath}^{\,b} + a_y^{b}\,\hat{\jmath}^{\,b} + a_z^{b}\,\hat{k}^{\,b} \right) \\[6pt]
+  a_x^{I}\left(\hat{\imath}^{\,I}\cdot\hat{\jmath}^{\,b}\right)
+  + a_y^{I}\left(\hat{\jmath}^{\,I}\cdot\hat{\jmath}^{\,b}\right)
+  + a_z^{I}\left(\hat{k}^{\,I}\cdot\hat{\jmath}^{\,b}\right)
+  &= a_x^{b}\left(\hat{\imath}^{\,b}\cdot\hat{\jmath}^{\,b}\right)
+  + a_y^{b}\left(\hat{\jmath}^{\,b}\cdot\hat{\jmath}^{\,b}\right)
+  + a_z^{b}\left(\hat{k}^{\,b}\cdot\hat{\jmath}^{\,b}\right) \\[6pt]
+  \hat{\imath}^{\,b}\cdot\hat{\jmath}^{\,b} = 0, \qquad
+  \hat{\jmath}^{\,b}\cdot\hat{\jmath}^{\,b} &= 1, \qquad
+  \hat{k}^{\,b}\cdot\hat{\jmath}^{\,b} = 0 \\[6pt]
+  a_x^{I}\left(\hat{\imath}^{\,I}\cdot\hat{\jmath}^{\,b}\right)
+  + a_y^{I}\left(\hat{\jmath}^{\,I}\cdot\hat{\jmath}^{\,b}\right)
+  + a_z^{I}\left(\hat{k}^{\,I}\cdot\hat{\jmath}^{\,b}\right)
+  &= a_x^{b}(0) + a_y^{b}(1) + a_z^{b}(0) \\[6pt]
+  &= 0 + a_y^{b} + 0
+\end{align}
+
+\begin{equation}
+  \boxed{\;a_y^{b} = a_x^{I}\left(\hat{\imath}^{\,I}\cdot\hat{\jmath}^{\,b}\right)
+  + a_y^{I}\left(\hat{\jmath}^{\,I}\cdot\hat{\jmath}^{\,b}\right)
+  + a_z^{I}\left(\hat{k}^{\,I}\cdot\hat{\jmath}^{\,b}\right)\;}
+\end{equation}
+
+\subsection*{Producto punto con $\hat{k}^{\,b}$}
+
+\begin{align}
+  \hat{k}^{\,b}\cdot\left( a_x^{I}\,\hat{\imath}^{\,I} + a_y^{I}\,\hat{\jmath}^{\,I} + a_z^{I}\,\hat{k}^{\,I} \right)
+  &= \hat{k}^{\,b}\cdot\left( a_x^{b}\,\hat{\imath}^{\,b} + a_y^{b}\,\hat{\jmath}^{\,b} + a_z^{b}\,\hat{k}^{\,b} \right) \\[6pt]
+  a_x^{I}\left(\hat{\imath}^{\,I}\cdot\hat{k}^{\,b}\right)
+  + a_y^{I}\left(\hat{\jmath}^{\,I}\cdot\hat{k}^{\,b}\right)
+  + a_z^{I}\left(\hat{k}^{\,I}\cdot\hat{k}^{\,b}\right)
+  &= a_x^{b}\left(\hat{\imath}^{\,b}\cdot\hat{k}^{\,b}\right)
+  + a_y^{b}\left(\hat{\jmath}^{\,b}\cdot\hat{k}^{\,b}\right)
+  + a_z^{b}\left(\hat{k}^{\,b}\cdot\hat{k}^{\,b}\right) \\[6pt]
+  \hat{\imath}^{\,b}\cdot\hat{k}^{\,b} = 0, \qquad
+  \hat{\jmath}^{\,b}\cdot\hat{k}^{\,b} &= 0, \qquad
+  \hat{k}^{\,b}\cdot\hat{k}^{\,b} = 1 \\[6pt]
+  a_x^{I}\left(\hat{\imath}^{\,I}\cdot\hat{k}^{\,b}\right)
+  + a_y^{I}\left(\hat{\jmath}^{\,I}\cdot\hat{k}^{\,b}\right)
+  + a_z^{I}\left(\hat{k}^{\,I}\cdot\hat{k}^{\,b}\right)
+  &= a_x^{b}(0) + a_y^{b}(0) + a_z^{b}(1) \\[6pt]
+  &= 0 + 0 + a_z^{b}
+\end{align}
+
+\begin{equation}
+  \boxed{\;a_z^{b} = a_x^{I}\left(\hat{\imath}^{\,I}\cdot\hat{k}^{\,b}\right)
+  + a_y^{I}\left(\hat{\jmath}^{\,I}\cdot\hat{k}^{\,b}\right)
+  + a_z^{I}\left(\hat{k}^{\,I}\cdot\hat{k}^{\,b}\right)\;}
+\end{equation}
+
+\subsection*{Forma matricial}
+
+\begin{align}
+  a_x^{b} &= a_x^{I}\left(\hat{\imath}^{\,I}\cdot\hat{\imath}^{\,b}\right)
+           + a_y^{I}\left(\hat{\jmath}^{\,I}\cdot\hat{\imath}^{\,b}\right)
+           + a_z^{I}\left(\hat{k}^{\,I}\cdot\hat{\imath}^{\,b}\right) \\
+  a_y^{b} &= a_x^{I}\left(\hat{\imath}^{\,I}\cdot\hat{\jmath}^{\,b}\right)
+           + a_y^{I}\left(\hat{\jmath}^{\,I}\cdot\hat{\jmath}^{\,b}\right)
+           + a_z^{I}\left(\hat{k}^{\,I}\cdot\hat{\jmath}^{\,b}\right) \\
+  a_z^{b} &= a_x^{I}\left(\hat{\imath}^{\,I}\cdot\hat{k}^{\,b}\right)
+           + a_y^{I}\left(\hat{\jmath}^{\,I}\cdot\hat{k}^{\,b}\right)
+           + a_z^{I}\left(\hat{k}^{\,I}\cdot\hat{k}^{\,b}\right)
+\end{align}
+
+\begin{equation}
+  \begin{bmatrix} a_x^{b} \\[4pt] a_y^{b} \\[4pt] a_z^{b} \end{bmatrix}
+  =
+  \begin{bmatrix}
+    \hat{\imath}^{\,I}\cdot\hat{\imath}^{\,b} & \hat{\jmath}^{\,I}\cdot\hat{\imath}^{\,b} & \hat{k}^{\,I}\cdot\hat{\imath}^{\,b} \\[5pt]
+    \hat{\imath}^{\,I}\cdot\hat{\jmath}^{\,b} & \hat{\jmath}^{\,I}\cdot\hat{\jmath}^{\,b} & \hat{k}^{\,I}\cdot\hat{\jmath}^{\,b} \\[5pt]
+    \hat{\imath}^{\,I}\cdot\hat{k}^{\,b}      & \hat{\jmath}^{\,I}\cdot\hat{k}^{\,b}      & \hat{k}^{\,I}\cdot\hat{k}^{\,b}
+  \end{bmatrix}
+  \begin{bmatrix} a_x^{I} \\[4pt] a_y^{I} \\[4pt] a_z^{I} \end{bmatrix}
+\end{equation}
+
+\begin{equation}
+  \vec{a}^{\,b} = \bm{R}^{b}_{I}\,\vec{a}^{\,I}
+\end{equation}
+
+\subsection*{Evaluación para $\psi$ (guiñada)}
+
+\begin{align}
+  \hat{\imath}^{\,I}\cdot\hat{\imath}^{\,b} &= \cos(\psi) \\[4pt]
+  \hat{\jmath}^{\,I}\cdot\hat{\imath}^{\,b} &= \cos(90^{\circ}-\psi)
+     = \cos(90^{\circ})\cos(\psi) + \sin(90^{\circ})\sin(\psi)
+     = (0)\cos(\psi) + (1)\sin(\psi) = \sin(\psi) \\[4pt]
+  \hat{k}^{\,I}\cdot\hat{\imath}^{\,b} &= \cos(90^{\circ}) = 0 \\[8pt]
+  \hat{\imath}^{\,I}\cdot\hat{\jmath}^{\,b} &= \cos(90^{\circ}+\psi)
+     = \cos(90^{\circ})\cos(\psi) - \sin(90^{\circ})\sin(\psi)
+     = (0)\cos(\psi) - (1)\sin(\psi) = -\sin(\psi) \\[4pt]
+  \hat{\jmath}^{\,I}\cdot\hat{\jmath}^{\,b} &= \cos(\psi) \\[4pt]
+  \hat{k}^{\,I}\cdot\hat{\jmath}^{\,b} &= \cos(90^{\circ}) = 0 \\[8pt]
+  \hat{\imath}^{\,I}\cdot\hat{k}^{\,b} &= \cos(90^{\circ}) = 0 \\[4pt]
+  \hat{\jmath}^{\,I}\cdot\hat{k}^{\,b} &= \cos(90^{\circ}) = 0 \\[4pt]
+  \hat{k}^{\,I}\cdot\hat{k}^{\,b} &= \cos(0^{\circ}) = 1
+\end{align}
+
+\begin{equation}
+  \begin{bmatrix} a_x^{b} \\[4pt] a_y^{b} \\[4pt] a_z^{b} \end{bmatrix}
+  =
+  \begin{bmatrix}
+    \cos(\psi) & \sin(\psi) & 0 \\[4pt]
+   -\sin(\psi) & \cos(\psi) & 0 \\[4pt]
+    0          & 0          & 1
+  \end{bmatrix}
+  \begin{bmatrix} a_x^{I} \\[4pt] a_y^{I} \\[4pt] a_z^{I} \end{bmatrix}
+\end{equation}
+
+\begin{align}
+  a_x^{b} &= a_x^{I}\cos(\psi) + a_y^{I}\sin(\psi) + a_z^{I}(0)
+           = a_x^{I}\cos(\psi) + a_y^{I}\sin(\psi) \\[4pt]
+  a_y^{b} &= -a_x^{I}\sin(\psi) + a_y^{I}\cos(\psi) + a_z^{I}(0)
+           = -a_x^{I}\sin(\psi) + a_y^{I}\cos(\psi) \\[4pt]
+  a_z^{b} &= a_x^{I}(0) + a_y^{I}(0) + a_z^{I}(1) = a_z^{I}
+\end{align}
+
+\begin{equation}
+  \left(\bm{R}^{b}_{I}\right)^{-1} = \left(\bm{R}^{b}_{I}\right)^{\!\top} = \bm{R}^{I}_{b},
+  \qquad
+  \det\!\left(\bm{R}^{b}_{I}\right) = 1
+\end{equation}
+
+\paragraph{Andres Felipe Valderrama Medina}
+\begin{equation}
+\begin{bmatrix}
+{a_x}^{b} \\
+{a_y}^{b} \\
+{a_z}^{b}
+\end{bmatrix}
+=
+\begin{bmatrix}
+\hat{\imath}^{I}\cdot\hat{\imath}^{b} &
+\hat{\jmath}^{I}\cdot\hat{\imath}^{b} &
+\hat{k}^{I}\cdot\hat{\imath}^{b}
+\\
+\hat{\imath}^{I}\cdot\hat{\jmath}^{b} &
+\hat{\jmath}^{I}\cdot\hat{\jmath}^{b} &
+\hat{k}^{I}\cdot\hat{\jmath}^{b}
+\\
+\hat{\imath}^{I}\cdot\hat{k}^{b} &
+\hat{\jmath}^{I}\cdot\hat{k}^{b} &
+\hat{k}^{I}\cdot\hat{k}^{b}
+\end{bmatrix}
+\begin{bmatrix}
+{a_x}^{I} \\
+{a_y}^{I} \\
+{a_z}^{I}
+\end{bmatrix}
+\end{equation}
+\begin{equation}
+\begin{bmatrix}
+a_x^{b} \\
+a_y^{b} \\
+a_z^{b}
+\end{bmatrix}
+=
+\begin{bmatrix}
+\cos(\psi) & \sin(\psi) & 0 \\
+-\sin(\psi) & \cos(\psi) & 0 \\
+0 & 0 & 1
+\end{bmatrix}
+\begin{bmatrix}
+a_x^{I} \\
+a_y^{I} \\
+a_z^{I}
+\end{bmatrix}
+\end{equation}
+\[
+\vec{a}^{\,b}
+=
+R_{I}^{b}\vec{a}^{\,I}
+\]
+
+\[
+\left(R_{I}^{b}\right)^{-1}
+=
+\left(R_{I}^{b}\right)^{T}
+=
+R_{b}^{I}
+\]
+
+\[
+\det\left(R_{I}^{b}\right)=1
+\]
+
+
+\newcommand{\C}[1]{\cos(#1)}
+\newcommand{\Sin}[1]{\sin(#1)}
+\section*{Cinemática y Transformación de Coordenadas}
+\paragraph{David Santiago Sanabria Romero}
+% --- 1. Transformación v2 -> b ---
+\subsection*{1. Transformación del marco $v_2$ al marco del cuerpo $b$}
+\begin{equation}
+\begin{bmatrix}
+\hat{x}_{v2} \\
+\hat{y}_{v2} \\
+\hat{z}_{v2}
+\end{bmatrix}
+=
+\begin{bmatrix}
+1 & 0 & 0 \\
+0 & \cos\phi & -\sin\phi \\
+0 & \sin\phi & \cos\phi
+\end{bmatrix}
+\begin{bmatrix}
+\hat{x}_b \\
+\hat{y}_b \\
+\hat{z}_b
+\end{bmatrix}
+\end{equation}
+
+Proyección del eje $\hat{y}_{v2}$:
+\begin{equation}
+\hat{y}_{v2} = \cos(\phi)\hat{y}_b - \sin(\phi)\hat{z}_b
+\end{equation}
+
+\vspace{0.3cm}
+
+% --- 2. Transformación v1 -> b ---
+\subsection*{2. Transformación del marco $v_1$ al marco del cuerpo $b$}
+
+Producto de matrices de rotación $R_y(\theta) \cdot R_x(\phi)$:
+\begin{equation}
+\begin{bmatrix}
+\hat{x}_{v1} \\
+\hat{y}_{v1} \\
+\hat{z}_{v1}
+\end{bmatrix}
+=
+\begin{bmatrix}
+\cos\theta & 0 & \sin\theta \\
+0 & 1 & 0 \\
+-\sin\theta & 0 & \cos\theta
+\end{bmatrix}
+\begin{bmatrix}
+1 & 0 & 0 \\
+0 & \cos\phi & -\sin\phi \\
+0 & \sin\phi & \cos\phi
+\end{bmatrix}
+\begin{bmatrix}
+\hat{x}_b \\
+\hat{y}_b \\
+\hat{z}_b
+\end{bmatrix}
+\end{equation}
+
+Matriz de transformación resultante:
+\begin{equation}
+\begin{bmatrix}
+\hat{x}_{v1} \\
+\hat{y}_{v1} \\
+\hat{z}_{v1}
+\end{bmatrix}
+=
+\begin{bmatrix}
+\cos\theta & \sin\theta\sin\phi & \sin\theta\cos\phi \\
+0 & \cos\phi & -\sin\phi \\
+-\sin\theta & \cos\theta\sin\phi & \cos\phi\cos\theta
+\end{bmatrix}
+\begin{bmatrix}
+\hat{x}_b \\
+\hat{y}_b \\
+\hat{z}_b
+\end{bmatrix}
+\end{equation}
+
+Proyección del eje $\hat{z}_{v1}$:
+\begin{equation}
+\hat{z}_{v1} = -\sin(\theta)\hat{x}_b + \cos(\theta)\sin(\phi)\hat{y}_b + \cos(\phi)\cos(\theta)\hat{z}_b
+\end{equation}
+
+\vspace{0.3cm}
+
+% --- 3. Velocidad Angular ---
+\subsection*{3. Vector de Velocidad Angular ($\boldsymbol{\omega}_{I}^b$)}
+
+Suma de las velocidades angulares sobre sus respectivos ejes de rotación intermedios:
+\begin{equation}
+\begin{aligned}
+\bm{\omega}_{I}^b &= \dot{\phi} \hat{x}_b 
++ \dot{\theta} \left( \cos\phi \hat{y}_b - \sin\phi \hat{z}_b \right) \\
+&\quad + \dot{\psi} \left( -\sin\theta \hat{x}_b + \cos\theta\sin\phi \hat{y}_b + \cos\phi\cos\theta \hat{z}_b \right)
+\end{aligned}
+\end{equation}
+
+Agrupando componentes por los ejes del cuerpo ($\hat{x}_b, \hat{y}_b, \hat{z}_b$):
+\begin{equation}
+\begin{aligned}
+\bm{\omega}_{I}^b &= \left( \dot{\phi} - \dot{\psi}\sin\theta \right) \hat{x}_b \\
+&\quad + \left( \dot{\theta}\cos\phi + \dot{\psi}\cos\theta\sin\phi \right) \hat{y}_b \\
+&\quad + \left( -\dot{\theta}\sin\phi + \dot{\psi}\cos\phi\cos\theta \right) \hat{z}_b
+\end{aligned}
+\end{equation}
+
+\vspace{0.3cm}
+
+% --- 4. Relación de p, q, r ---
+\subsection*{4. Ecuaciones Cinemáticas de Euler}
+
+Componentes de la velocidad angular en los ejes fijos al cuerpo ($p, q, r$):
+\begin{align}
+p &= \dot{\phi} - \dot{\psi}\sin\theta \\
+q &= \dot{\theta}\cos\phi + \dot{\psi}\cos\theta\sin\phi \\
+r &= -\dot{\theta}\sin\phi + \dot{\psi}\cos\phi\cos\theta
+\end{align}
+
+Expresado en forma matricial:
+\begin{equation}
+\begin{bmatrix}
+p \\
+q \\
+r
+\end{bmatrix}
+=
+\begin{bmatrix}
+1 & 0 & -\sin\theta \\
+0 & \cos\phi & \cos\theta\sin\phi \\
+0 & -\sin\phi & \cos\phi\cos\theta
+\end{bmatrix}
+\begin{bmatrix}
+\dot{\phi} \\
+\dot{\theta} \\
+\dot{\psi}
+\end{bmatrix}
+\end{equation}
+
+Por lo tanto, la tasa de variación de los ángulos de Euler es función de las velocidades angulares del cuerpo:
+\begin{equation}
+(\dot{\phi}, \dot{\theta}, \dot{\psi}) = f (p, q, r)
+\end{equation}
+
+
+
+\subsection{Dinámica traslacional en el marco del cuerpo}
+\paragraph{Profe}
+\subsubsection{Segunda ley de Newton}
+
+\begin{equation}
+ \left(m \frac{d\vec{V}}{dt} \right)_w = \sum \vec{F}
+\end{equation}
+
+Partiendo de la segunda ley de Newton en el marco rotante:
+
+\begin{equation}
+m \left( \frac{d\vec{V}}{dt} \right)_b + m \, \vec{\boldsymbol{\omega}} \times \vec{V}_b = \vec{F}
+\end{equation}
+
+Expresando en forma matricial:
+
+\begin{equation}
+m
+\begin{bmatrix}
+\dot{u} \\
+\dot{v} \\
+\dot{w}
+\end{bmatrix}
++
+m
+\begin{bmatrix}
+\hat{i} & \hat{j} & \hat{k} \\
+p & q & r \\
+u & v & w
+\end{bmatrix}
+=
+\begin{bmatrix}
+F_x \\
+F_y \\
+F_z
+\end{bmatrix}
+\end{equation}
+
+
+\section*{Dinámica}
+\paragraph{Javier Alejandro Tellez Paez}
+Ecuación general de transporte (derivada de un vector en marco inercial vs.\ body):
+\begin{equation}
+\left(\frac{d\vec{A}}{dt}\right)_{I}=\left(\frac{d\vec{A}}{dt}\right)_{b}+\vec{\omega}\times\vec{A}
+\end{equation}
+
+Momento lineal $\vec{P}=m\vec{V}$ y momento angular $\vec{H}=\mathbf{I}\vec{\omega}$. Con $m$ constante:
+\begin{align}
+\frac{d\vec{P}}{dt}&=\frac{d(m\vec{V})}{dt}=m\,\frac{d\vec{V}}{dt}=\sum \vec{F}\\[4pt]
+\frac{d(\mathbf{I}\vec{\omega})}{dt}&=\mathbf{I}\,\frac{d\vec{\omega}}{dt}=\sum \vec{\tau}
+\end{align}
+
+Aplicado al problema, con $(\cdot)_{I}$ marco inercial y $(\cdot)_{b}$ marco body:
+\begin{align}
+m\left(\frac{d\vec{V}}{dt}\right)_{I}&=\sum \vec{F}\\[4pt]
+m\left[\left(\frac{d\vec{V}}{dt}\right)_{b}+\vec{\omega}\times\vec{V}_{b}\right]&=\sum \vec{F}
+\end{align}
+
+En componentes, con $\vec{\omega}=(p,q,r)$ y $\vec{V}_{b}=(u,v,w)$:
+\begin{equation}
+m\begin{bmatrix}\dot{u}\\[2pt]\dot{v}\\[2pt]\dot{w}\end{bmatrix}
++m\begin{vmatrix}\hat{\imath}&\hat{\jmath}&\hat{k}\\ p&q&r\\ u&v&w\end{vmatrix}
+=\begin{bmatrix}F_{x}\\[2pt]F_{y}\\[2pt]F_{z}\end{bmatrix}
+\end{equation}
+
+Desarrollando el producto cruz:
+\begin{equation}
+m\begin{bmatrix}\dot{u}\\[2pt]\dot{v}\\[2pt]\dot{w}\end{bmatrix}
++m\begin{bmatrix}qw-rv\\[2pt]ru-pw\\[2pt]pv-qu\end{bmatrix}
+=\begin{bmatrix}F_{x}\\[2pt]F_{y}\\[2pt]F_{z}\end{bmatrix}
+\end{equation}
+
+Despejando las aceleraciones:
+\begin{equation}
+\begin{bmatrix}\dot{u}\\[2pt]\dot{v}\\[2pt]\dot{w}\end{bmatrix}
+=\frac{1}{m}\begin{bmatrix}F_{x}\\[2pt]F_{y}\\[2pt]F_{z}\end{bmatrix}
+-\begin{bmatrix}qw-rv\\[2pt]ru-pw\\[2pt]pv-qu\end{bmatrix}
+\end{equation}
+
+Forma final para simulación:
+\begin{equation}
+\boxed{
+\begin{bmatrix}\dot{u}\\[2pt]\dot{v}\\[2pt]\dot{w}\end{bmatrix}
+=\frac{1}{m}\begin{bmatrix}F_{x}\\[2pt]F_{y}\\[2pt]F_{z}\end{bmatrix}
++\begin{bmatrix}rv-qw\\[2pt]pw-ru\\[2pt]qu-pv\end{bmatrix}}
+\end{equation}
+
+
+
+\section*{Gráficas}
+\paragraph{Ma Sofia Esguerra G cod 1804228}
 
 \begin{figure}
 \centering
@@ -505,473 +973,5 @@ Marco de referencia inercial NED y marco Body con los ángulos de Euler.
 }
 \label{fig:frames}
 \end{figure}
-
-
-\paragraph{Nombre del estudiante 2}
-
-\subsection*{Expresión del vector en ambos marcos}
-
-\begin{align}
-  \vec{a} &= a_x^{I}\,\hat{\imath}^{\,I} + a_y^{I}\,\hat{\jmath}^{\,I} + a_z^{I}\,\hat{k}^{\,I} \\[4pt]
-  \vec{a} &= a_x^{b}\,\hat{\imath}^{\,b} + a_y^{b}\,\hat{\jmath}^{\,b} + a_z^{b}\,\hat{k}^{\,b} \\[4pt]
-  a_x^{I}\,\hat{\imath}^{\,I} + a_y^{I}\,\hat{\jmath}^{\,I} + a_z^{I}\,\hat{k}^{\,I}
-  &= a_x^{b}\,\hat{\imath}^{\,b} + a_y^{b}\,\hat{\jmath}^{\,b} + a_z^{b}\,\hat{k}^{\,b}
-\end{align}
-
-\subsection*{Producto punto con $\hat{\imath}^{\,b}$}
-
-\begin{align}
-  \hat{\imath}^{\,b}\cdot\left( a_x^{I}\,\hat{\imath}^{\,I} + a_y^{I}\,\hat{\jmath}^{\,I} + a_z^{I}\,\hat{k}^{\,I} \right)
-  &= \hat{\imath}^{\,b}\cdot\left( a_x^{b}\,\hat{\imath}^{\,b} + a_y^{b}\,\hat{\jmath}^{\,b} + a_z^{b}\,\hat{k}^{\,b} \right) \\[6pt]
-  a_x^{I}\left(\hat{\imath}^{\,I}\cdot\hat{\imath}^{\,b}\right)
-  + a_y^{I}\left(\hat{\jmath}^{\,I}\cdot\hat{\imath}^{\,b}\right)
-  + a_z^{I}\left(\hat{k}^{\,I}\cdot\hat{\imath}^{\,b}\right)
-  &= a_x^{b}\left(\hat{\imath}^{\,b}\cdot\hat{\imath}^{\,b}\right)
-  + a_y^{b}\left(\hat{\jmath}^{\,b}\cdot\hat{\imath}^{\,b}\right)
-  + a_z^{b}\left(\hat{k}^{\,b}\cdot\hat{\imath}^{\,b}\right) \\[6pt]
-  \hat{\imath}^{\,b}\cdot\hat{\imath}^{\,b} = 1, \qquad
-  \hat{\jmath}^{\,b}\cdot\hat{\imath}^{\,b} &= 0, \qquad
-  \hat{k}^{\,b}\cdot\hat{\imath}^{\,b} = 0 \\[6pt]
-  a_x^{I}\left(\hat{\imath}^{\,I}\cdot\hat{\imath}^{\,b}\right)
-  + a_y^{I}\left(\hat{\jmath}^{\,I}\cdot\hat{\imath}^{\,b}\right)
-  + a_z^{I}\left(\hat{k}^{\,I}\cdot\hat{\imath}^{\,b}\right)
-  &= a_x^{b}(1) + a_y^{b}(0) + a_z^{b}(0) \\[6pt]
-  &= a_x^{b} + 0 + 0
-\end{align}
-
-\begin{equation}
-  \boxed{\;a_x^{b} = a_x^{I}\left(\hat{\imath}^{\,I}\cdot\hat{\imath}^{\,b}\right)
-  + a_y^{I}\left(\hat{\jmath}^{\,I}\cdot\hat{\imath}^{\,b}\right)
-  + a_z^{I}\left(\hat{k}^{\,I}\cdot\hat{\imath}^{\,b}\right)\;}
-\end{equation}
-
-\subsection*{Producto punto con $\hat{\jmath}^{\,b}$}
-
-\begin{align}
-  \hat{\jmath}^{\,b}\cdot\left( a_x^{I}\,\hat{\imath}^{\,I} + a_y^{I}\,\hat{\jmath}^{\,I} + a_z^{I}\,\hat{k}^{\,I} \right)
-  &= \hat{\jmath}^{\,b}\cdot\left( a_x^{b}\,\hat{\imath}^{\,b} + a_y^{b}\,\hat{\jmath}^{\,b} + a_z^{b}\,\hat{k}^{\,b} \right) \\[6pt]
-  a_x^{I}\left(\hat{\imath}^{\,I}\cdot\hat{\jmath}^{\,b}\right)
-  + a_y^{I}\left(\hat{\jmath}^{\,I}\cdot\hat{\jmath}^{\,b}\right)
-  + a_z^{I}\left(\hat{k}^{\,I}\cdot\hat{\jmath}^{\,b}\right)
-  &= a_x^{b}\left(\hat{\imath}^{\,b}\cdot\hat{\jmath}^{\,b}\right)
-  + a_y^{b}\left(\hat{\jmath}^{\,b}\cdot\hat{\jmath}^{\,b}\right)
-  + a_z^{b}\left(\hat{k}^{\,b}\cdot\hat{\jmath}^{\,b}\right) \\[6pt]
-  \hat{\imath}^{\,b}\cdot\hat{\jmath}^{\,b} = 0, \qquad
-  \hat{\jmath}^{\,b}\cdot\hat{\jmath}^{\,b} &= 1, \qquad
-  \hat{k}^{\,b}\cdot\hat{\jmath}^{\,b} = 0 \\[6pt]
-  a_x^{I}\left(\hat{\imath}^{\,I}\cdot\hat{\jmath}^{\,b}\right)
-  + a_y^{I}\left(\hat{\jmath}^{\,I}\cdot\hat{\jmath}^{\,b}\right)
-  + a_z^{I}\left(\hat{k}^{\,I}\cdot\hat{\jmath}^{\,b}\right)
-  &= a_x^{b}(0) + a_y^{b}(1) + a_z^{b}(0) \\[6pt]
-  &= 0 + a_y^{b} + 0
-\end{align}
-
-\begin{equation}
-  \boxed{\;a_y^{b} = a_x^{I}\left(\hat{\imath}^{\,I}\cdot\hat{\jmath}^{\,b}\right)
-  + a_y^{I}\left(\hat{\jmath}^{\,I}\cdot\hat{\jmath}^{\,b}\right)
-  + a_z^{I}\left(\hat{k}^{\,I}\cdot\hat{\jmath}^{\,b}\right)\;}
-\end{equation}
-
-\subsection*{Producto punto con $\hat{k}^{\,b}$}
-
-\begin{align}
-  \hat{k}^{\,b}\cdot\left( a_x^{I}\,\hat{\imath}^{\,I} + a_y^{I}\,\hat{\jmath}^{\,I} + a_z^{I}\,\hat{k}^{\,I} \right)
-  &= \hat{k}^{\,b}\cdot\left( a_x^{b}\,\hat{\imath}^{\,b} + a_y^{b}\,\hat{\jmath}^{\,b} + a_z^{b}\,\hat{k}^{\,b} \right) \\[6pt]
-  a_x^{I}\left(\hat{\imath}^{\,I}\cdot\hat{k}^{\,b}\right)
-  + a_y^{I}\left(\hat{\jmath}^{\,I}\cdot\hat{k}^{\,b}\right)
-  + a_z^{I}\left(\hat{k}^{\,I}\cdot\hat{k}^{\,b}\right)
-  &= a_x^{b}\left(\hat{\imath}^{\,b}\cdot\hat{k}^{\,b}\right)
-  + a_y^{b}\left(\hat{\jmath}^{\,b}\cdot\hat{k}^{\,b}\right)
-  + a_z^{b}\left(\hat{k}^{\,b}\cdot\hat{k}^{\,b}\right) \\[6pt]
-  \hat{\imath}^{\,b}\cdot\hat{k}^{\,b} = 0, \qquad
-  \hat{\jmath}^{\,b}\cdot\hat{k}^{\,b} &= 0, \qquad
-  \hat{k}^{\,b}\cdot\hat{k}^{\,b} = 1 \\[6pt]
-  a_x^{I}\left(\hat{\imath}^{\,I}\cdot\hat{k}^{\,b}\right)
-  + a_y^{I}\left(\hat{\jmath}^{\,I}\cdot\hat{k}^{\,b}\right)
-  + a_z^{I}\left(\hat{k}^{\,I}\cdot\hat{k}^{\,b}\right)
-  &= a_x^{b}(0) + a_y^{b}(0) + a_z^{b}(1) \\[6pt]
-  &= 0 + 0 + a_z^{b}
-\end{align}
-
-\begin{equation}
-  \boxed{\;a_z^{b} = a_x^{I}\left(\hat{\imath}^{\,I}\cdot\hat{k}^{\,b}\right)
-  + a_y^{I}\left(\hat{\jmath}^{\,I}\cdot\hat{k}^{\,b}\right)
-  + a_z^{I}\left(\hat{k}^{\,I}\cdot\hat{k}^{\,b}\right)\;}
-\end{equation}
-
-\subsection*{Forma matricial}
-
-\begin{align}
-  a_x^{b} &= a_x^{I}\left(\hat{\imath}^{\,I}\cdot\hat{\imath}^{\,b}\right)
-           + a_y^{I}\left(\hat{\jmath}^{\,I}\cdot\hat{\imath}^{\,b}\right)
-           + a_z^{I}\left(\hat{k}^{\,I}\cdot\hat{\imath}^{\,b}\right) \\
-  a_y^{b} &= a_x^{I}\left(\hat{\imath}^{\,I}\cdot\hat{\jmath}^{\,b}\right)
-           + a_y^{I}\left(\hat{\jmath}^{\,I}\cdot\hat{\jmath}^{\,b}\right)
-           + a_z^{I}\left(\hat{k}^{\,I}\cdot\hat{\jmath}^{\,b}\right) \\
-  a_z^{b} &= a_x^{I}\left(\hat{\imath}^{\,I}\cdot\hat{k}^{\,b}\right)
-           + a_y^{I}\left(\hat{\jmath}^{\,I}\cdot\hat{k}^{\,b}\right)
-           + a_z^{I}\left(\hat{k}^{\,I}\cdot\hat{k}^{\,b}\right)
-\end{align}
-
-\begin{equation}
-  \begin{bmatrix} a_x^{b} \\[4pt] a_y^{b} \\[4pt] a_z^{b} \end{bmatrix}
-  =
-  \begin{bmatrix}
-    \hat{\imath}^{\,I}\cdot\hat{\imath}^{\,b} & \hat{\jmath}^{\,I}\cdot\hat{\imath}^{\,b} & \hat{k}^{\,I}\cdot\hat{\imath}^{\,b} \\[5pt]
-    \hat{\imath}^{\,I}\cdot\hat{\jmath}^{\,b} & \hat{\jmath}^{\,I}\cdot\hat{\jmath}^{\,b} & \hat{k}^{\,I}\cdot\hat{\jmath}^{\,b} \\[5pt]
-    \hat{\imath}^{\,I}\cdot\hat{k}^{\,b}      & \hat{\jmath}^{\,I}\cdot\hat{k}^{\,b}      & \hat{k}^{\,I}\cdot\hat{k}^{\,b}
-  \end{bmatrix}
-  \begin{bmatrix} a_x^{I} \\[4pt] a_y^{I} \\[4pt] a_z^{I} \end{bmatrix}
-\end{equation}
-
-\begin{equation}
-  \vec{a}^{\,b} = \bm{R}^{b}_{I}\,\vec{a}^{\,I}
-\end{equation}
-
-\subsection*{Evaluación para $\psi$ (guiñada)}
-
-\begin{align}
-  \hat{\imath}^{\,I}\cdot\hat{\imath}^{\,b} &= \cos(\psi) \\[4pt]
-  \hat{\jmath}^{\,I}\cdot\hat{\imath}^{\,b} &= \cos(90^{\circ}-\psi)
-     = \cos(90^{\circ})\cos(\psi) + \sin(90^{\circ})\sin(\psi)
-     = (0)\cos(\psi) + (1)\sin(\psi) = \sin(\psi) \\[4pt]
-  \hat{k}^{\,I}\cdot\hat{\imath}^{\,b} &= \cos(90^{\circ}) = 0 \\[8pt]
-  \hat{\imath}^{\,I}\cdot\hat{\jmath}^{\,b} &= \cos(90^{\circ}+\psi)
-     = \cos(90^{\circ})\cos(\psi) - \sin(90^{\circ})\sin(\psi)
-     = (0)\cos(\psi) - (1)\sin(\psi) = -\sin(\psi) \\[4pt]
-  \hat{\jmath}^{\,I}\cdot\hat{\jmath}^{\,b} &= \cos(\psi) \\[4pt]
-  \hat{k}^{\,I}\cdot\hat{\jmath}^{\,b} &= \cos(90^{\circ}) = 0 \\[8pt]
-  \hat{\imath}^{\,I}\cdot\hat{k}^{\,b} &= \cos(90^{\circ}) = 0 \\[4pt]
-  \hat{\jmath}^{\,I}\cdot\hat{k}^{\,b} &= \cos(90^{\circ}) = 0 \\[4pt]
-  \hat{k}^{\,I}\cdot\hat{k}^{\,b} &= \cos(0^{\circ}) = 1
-\end{align}
-
-\begin{equation}
-  \begin{bmatrix} a_x^{b} \\[4pt] a_y^{b} \\[4pt] a_z^{b} \end{bmatrix}
-  =
-  \begin{bmatrix}
-    \cos(\psi) & \sin(\psi) & 0 \\[4pt]
-   -\sin(\psi) & \cos(\psi) & 0 \\[4pt]
-    0          & 0          & 1
-  \end{bmatrix}
-  \begin{bmatrix} a_x^{I} \\[4pt] a_y^{I} \\[4pt] a_z^{I} \end{bmatrix}
-\end{equation}
-
-\begin{align}
-  a_x^{b} &= a_x^{I}\cos(\psi) + a_y^{I}\sin(\psi) + a_z^{I}(0)
-           = a_x^{I}\cos(\psi) + a_y^{I}\sin(\psi) \\[4pt]
-  a_y^{b} &= -a_x^{I}\sin(\psi) + a_y^{I}\cos(\psi) + a_z^{I}(0)
-           = -a_x^{I}\sin(\psi) + a_y^{I}\cos(\psi) \\[4pt]
-  a_z^{b} &= a_x^{I}(0) + a_y^{I}(0) + a_z^{I}(1) = a_z^{I}
-\end{align}
-
-\begin{equation}
-  \left(\bm{R}^{b}_{I}\right)^{-1} = \left(\bm{R}^{b}_{I}\right)^{\!\top} = \bm{R}^{I}_{b},
-  \qquad
-  \det\!\left(\bm{R}^{b}_{I}\right) = 1
-\end{equation}
-
-\paragraph{Andres Felipe Valderrama Medina}
-\[
-\begin{bmatrix}
-a_x^{b} \\
-a_y^{b} \\
-a_z^{b}
-\end{bmatrix}
-=
-\begin{bmatrix}
-\hat{\imath}^{I}\cdot\hat{\imath}^{b} &
-\hat{\jmath}^{I}\cdot\hat{\imath}^{b} &
-\hat{k}^{I}\cdot\hat{\imath}^{b}
-\\
-\hat{\imath}^{I}\cdot\hat{\jmath}^{b} &
-\hat{\jmath}^{I}\cdot\hat{\jmath}^{b} &
-\hat{k}^{I}\cdot\hat{\jmath}^{b}
-\\
-\hat{\imath}^{I}\cdot\hat{k}^{b} &
-\hat{\jmath}^{I}\cdot\hat{k}^{b} &
-\hat{k}^{I}\cdot\hat{k}^{b}
-\end{bmatrix}
-\begin{bmatrix}
-a_x^{I} \\
-a_y^{I} \\
-a_z^{I}
-\end{bmatrix}
-\]
-\[
-\begin{bmatrix}
-a_x^{b} \\
-a_y^{b} \\
-a_z^{b}
-\end{bmatrix}
-=
-\begin{bmatrix}
-\cos(\psi) & \sin(\psi) & 0 \\
--\sin(\psi) & \cos(\psi) & 0 \\
-0 & 0 & 1
-\end{bmatrix}
-\begin{bmatrix}
-a_x^{I} \\
-a_y^{I} \\
-a_z^{I}
-\end{bmatrix}
-\]
-
-\[
-\vec{a}^{\,b}
-=
-R_{I}^{b}\vec{a}^{\,I}
-\]
-
-\[
-\left(R_{I}^{b}\right)^{-1}
-=
-\left(R_{I}^{b}\right)^{T}
-=
-R_{b}^{I}
-\]
-
-\[
-\det\left(R_{I}^{b}\right)=1
-\]
-
-\paragraph{David Santiago Sanabria Romero}
-\newcommand{\C}[1]{\cos(#1)}
-\newcommand{\Sin}[1]{\sin(#1)}
-\section*{Cinemática y Transformación de Coordenadas}
-
-% --- 1. Transformación v2 -> b ---
-\subsection*{1. Transformación del marco $v_2$ al marco del cuerpo $b$}
-\begin{equation}
-\begin{bmatrix}
-\hat{x}_{v2} \\
-\hat{y}_{v2} \\
-\hat{z}_{v2}
-\end{bmatrix}
-=
-\begin{bmatrix}
-1 & 0 & 0 \\
-0 & \cos\phi & -\sin\phi \\
-0 & \sin\phi & \cos\phi
-\end{bmatrix}
-\begin{bmatrix}
-\hat{x}_b \\
-\hat{y}_b \\
-\hat{z}_b
-\end{bmatrix}
-\end{equation}
-
-Proyección del eje $\hat{y}_{v2}$:
-\begin{equation}
-\hat{y}_{v2} = \cos(\phi)\hat{y}_b - \sin(\phi)\hat{z}_b
-\end{equation}
-
-\vspace{0.3cm}
-
-% --- 2. Transformación v1 -> b ---
-\subsection*{2. Transformación del marco $v_1$ al marco del cuerpo $b$}
-
-Producto de matrices de rotación $R_y(\theta) \cdot R_x(\phi)$:
-\begin{equation}
-\begin{bmatrix}
-\hat{x}_{v1} \\
-\hat{y}_{v1} \\
-\hat{z}_{v1}
-\end{bmatrix}
-=
-\begin{bmatrix}
-\cos\theta & 0 & \sin\theta \\
-0 & 1 & 0 \\
--\sin\theta & 0 & \cos\theta
-\end{bmatrix}
-\begin{bmatrix}
-1 & 0 & 0 \\
-0 & \cos\phi & -\sin\phi \\
-0 & \sin\phi & \cos\phi
-\end{bmatrix}
-\begin{bmatrix}
-\hat{x}_b \\
-\hat{y}_b \\
-\hat{z}_b
-\end{bmatrix}
-\end{equation}
-
-Matriz de transformación resultante:
-\begin{equation}
-\begin{bmatrix}
-\hat{x}_{v1} \\
-\hat{y}_{v1} \\
-\hat{z}_{v1}
-\end{bmatrix}
-=
-\begin{bmatrix}
-\cos\theta & \sin\theta\sin\phi & \sin\theta\cos\phi \\
-0 & \cos\phi & -\sin\phi \\
--\sin\theta & \cos\theta\sin\phi & \cos\phi\cos\theta
-\end{bmatrix}
-\begin{bmatrix}
-\hat{x}_b \\
-\hat{y}_b \\
-\hat{z}_b
-\end{bmatrix}
-\end{equation}
-
-Proyección del eje $\hat{z}_{v1}$:
-\begin{equation}
-\hat{z}_{v1} = -\sin(\theta)\hat{x}_b + \cos(\theta)\sin(\phi)\hat{y}_b + \cos(\phi)\cos(\theta)\hat{z}_b
-\end{equation}
-
-\vspace{0.3cm}
-
-% --- 3. Velocidad Angular ---
-\subsection*{3. Vector de Velocidad Angular ($\boldsymbol{\omega}_{I}^b$)}
-
-Suma de las velocidades angulares sobre sus respectivos ejes de rotación intermedios:
-\begin{equation}
-\begin{aligned}
-\bm{\omega}_{I}^b &= \dot{\phi} \hat{x}_b 
-+ \dot{\theta} \left( \cos\phi \hat{y}_b - \sin\phi \hat{z}_b \right) \\
-&\quad + \dot{\psi} \left( -\sin\theta \hat{x}_b + \cos\theta\sin\phi \hat{y}_b + \cos\phi\cos\theta \hat{z}_b \right)
-\end{aligned}
-\end{equation}
-
-Agrupando componentes por los ejes del cuerpo ($\hat{x}_b, \hat{y}_b, \hat{z}_b$):
-\begin{equation}
-\begin{aligned}
-\bm{\omega}_{I}^b &= \left( \dot{\phi} - \dot{\psi}\sin\theta \right) \hat{x}_b \\
-&\quad + \left( \dot{\theta}\cos\phi + \dot{\psi}\cos\theta\sin\phi \right) \hat{y}_b \\
-&\quad + \left( -\dot{\theta}\sin\phi + \dot{\psi}\cos\phi\cos\theta \right) \hat{z}_b
-\end{aligned}
-\end{equation}
-
-\vspace{0.3cm}
-
-% --- 4. Relación de p, q, r ---
-\subsection*{4. Ecuaciones Cinemáticas de Euler}
-
-Componentes de la velocidad angular en los ejes fijos al cuerpo ($p, q, r$):
-\begin{align}
-p &= \dot{\phi} - \dot{\psi}\sin\theta \\
-q &= \dot{\theta}\cos\phi + \dot{\psi}\cos\theta\sin\phi \\
-r &= -\dot{\theta}\sin\phi + \dot{\psi}\cos\phi\cos\theta
-\end{align}
-
-Expresado en forma matricial:
-\begin{equation}
-\begin{bmatrix}
-p \\
-q \\
-r
-\end{bmatrix}
-=
-\begin{bmatrix}
-1 & 0 & -\sin\theta \\
-0 & \cos\phi & \cos\theta\sin\phi \\
-0 & -\sin\phi & \cos\phi\cos\theta
-\end{bmatrix}
-\begin{bmatrix}
-\dot{\phi} \\
-\dot{\theta} \\
-\dot{\psi}
-\end{bmatrix}
-\end{equation}
-
-Por lo tanto, la tasa de variación de los ángulos de Euler es función de las velocidades angulares del cuerpo:
-\begin{equation}
-(\dot{\phi}, \dot{\theta}, \dot{\psi}) = f (p, q, r)
-\end{equation}
-
-\paragraph{Profe}
-
-\subsection{Dinámica traslacional en el marco del cuerpo}
-
-\subsubsection{Segunda ley de Newton}
-
-\begin{equation}
- \left(m \frac{d\vec{V}}{dt} \right)_w = \sum \vec{F}
-\end{equation}
-
-Partiendo de la segunda ley de Newton en el marco rotante:
-
-\begin{equation}
-m \left( \frac{d\vec{V}}{dt} \right)_b + m \, \vec{\boldsymbol{\omega}} \times \vec{V}_b = \vec{F}
-\end{equation}
-
-Expresando en forma matricial:
-
-\begin{equation}
-m
-\begin{bmatrix}
-\dot{u} \\
-\dot{v} \\
-\dot{w}
-\end{bmatrix}
-+
-m
-\begin{bmatrix}
-\hat{i} & \hat{j} & \hat{k} \\
-p & q & r \\
-u & v & w
-\end{bmatrix}
-=
-\begin{bmatrix}
-F_x \\
-F_y \\
-F_z
-\end{bmatrix}
-\end{equation}
-
-\paragraph{Javier Alejandro Tellez Paez}
-
-\section*{Dinámica}
-
-Ecuación general de transporte (derivada de un vector en marco inercial vs.\ body):
-\begin{equation}
-\left(\frac{d\vec{A}}{dt}\right)_{I}=\left(\frac{d\vec{A}}{dt}\right)_{b}+\vec{\omega}\times\vec{A}
-\end{equation}
-
-Momento lineal $\vec{P}=m\vec{V}$ y momento angular $\vec{H}=\mathbf{I}\vec{\omega}$. Con $m$ constante:
-\begin{align}
-\frac{d\vec{P}}{dt}&=\frac{d(m\vec{V})}{dt}=m\,\frac{d\vec{V}}{dt}=\sum \vec{F}\\[4pt]
-\frac{d(\mathbf{I}\vec{\omega})}{dt}&=\mathbf{I}\,\frac{d\vec{\omega}}{dt}=\sum \vec{\tau}
-\end{align}
-
-Aplicado al problema, con $(\cdot)_{I}$ marco inercial y $(\cdot)_{b}$ marco body:
-\begin{align}
-m\left(\frac{d\vec{V}}{dt}\right)_{I}&=\sum \vec{F}\\[4pt]
-m\left[\left(\frac{d\vec{V}}{dt}\right)_{b}+\vec{\omega}\times\vec{V}_{b}\right]&=\sum \vec{F}
-\end{align}
-
-En componentes, con $\vec{\omega}=(p,q,r)$ y $\vec{V}_{b}=(u,v,w)$:
-\begin{equation}
-m\begin{bmatrix}\dot{u}\\[2pt]\dot{v}\\[2pt]\dot{w}\end{bmatrix}
-+m\begin{vmatrix}\hat{\imath}&\hat{\jmath}&\hat{k}\\ p&q&r\\ u&v&w\end{vmatrix}
-=\begin{bmatrix}F_{x}\\[2pt]F_{y}\\[2pt]F_{z}\end{bmatrix}
-\end{equation}
-
-Desarrollando el producto cruz:
-\begin{equation}
-m\begin{bmatrix}\dot{u}\\[2pt]\dot{v}\\[2pt]\dot{w}\end{bmatrix}
-+m\begin{bmatrix}qw-rv\\[2pt]ru-pw\\[2pt]pv-qu\end{bmatrix}
-=\begin{bmatrix}F_{x}\\[2pt]F_{y}\\[2pt]F_{z}\end{bmatrix}
-\end{equation}
-
-Despejando las aceleraciones:
-\begin{equation}
-\begin{bmatrix}\dot{u}\\[2pt]\dot{v}\\[2pt]\dot{w}\end{bmatrix}
-=\frac{1}{m}\begin{bmatrix}F_{x}\\[2pt]F_{y}\\[2pt]F_{z}\end{bmatrix}
--\begin{bmatrix}qw-rv\\[2pt]ru-pw\\[2pt]pv-qu\end{bmatrix}
-\end{equation}
-
-Forma final para simulación:
-\begin{equation}
-\boxed{
-\begin{bmatrix}\dot{u}\\[2pt]\dot{v}\\[2pt]\dot{w}\end{bmatrix}
-=\frac{1}{m}\begin{bmatrix}F_{x}\\[2pt]F_{y}\\[2pt]F_{z}\end{bmatrix}
-+\begin{bmatrix}rv-qw\\[2pt]pw-ru\\[2pt]qu-pv\end{bmatrix}}
-\end{equation}
-
-
-
 
 \end{document}
