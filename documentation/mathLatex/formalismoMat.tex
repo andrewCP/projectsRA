@@ -79,170 +79,106 @@ Multiplicamos la matriz inversa $I^{-1}$ obtenida en el Paso 6 por los vectores 
 
 
 
+\paragraph{Nombre del estudiante 1}
+
+\paragraph{Brayan Manrique}
+
+\section*{Inversión Dinámica del Cuadrotor}
+
+\subsection*{Simplificación de la matriz de rotación ($\psi=0$)}
+
+Se asume yaw nulo para reducir la matriz de rotación 3-2-1 completa a una versión que solo depende de $\phi$ y $\theta$, ya que el análisis de inversión dinámica no considera movimiento de guiñada.
 
 \section{Marcos de referencia y matrices de rotation}
 \paragraph{Osuna}
 \subsection*{Expresión del vector en ambos marcos}
 
 \begin{align}
-  \vec{a} &= a_x^{I}\,\hat{\imath}^{\,I} + a_y^{I}\,\hat{\jmath}^{\,I} + a_z^{I}\,\hat{k}^{\,I} \\[4pt]
-  \vec{a} &= a_x^{b}\,\hat{\imath}^{\,b} + a_y^{b}\,\hat{\jmath}^{\,b} + a_z^{b}\,\hat{k}^{\,b} \\[4pt]
-  a_x^{I}\,\hat{\imath}^{\,I} + a_y^{I}\,\hat{\jmath}^{\,I} + a_z^{I}\,\hat{k}^{\,I}
-  &= a_x^{b}\,\hat{\imath}^{\,b} + a_y^{b}\,\hat{\jmath}^{\,b} + a_z^{b}\,\hat{k}^{\,b}
+\psi = 0, \quad \cos\psi = 1, \quad \sin\psi = 0
 \end{align}
-
-\subsection*{Producto punto con $\hat{\imath}^{\,b}$}
 
 \begin{align}
-  \hat{\imath}^{\,b}\cdot\left( a_x^{I}\,\hat{\imath}^{\,I} + a_y^{I}\,\hat{\jmath}^{\,I} + a_z^{I}\,\hat{k}^{\,I} \right)
-  &= \hat{\imath}^{\,b}\cdot\left( a_x^{b}\,\hat{\imath}^{\,b} + a_y^{b}\,\hat{\jmath}^{\,b} + a_z^{b}\,\hat{k}^{\,b} \right) \\[6pt]
-  a_x^{I}\left(\hat{\imath}^{\,I}\cdot\hat{\imath}^{\,b}\right)
-  + a_y^{I}\left(\hat{\jmath}^{\,I}\cdot\hat{\imath}^{\,b}\right)
-  + a_z^{I}\left(\hat{k}^{\,I}\cdot\hat{\imath}^{\,b}\right)
-  &= a_x^{b}\left(\hat{\imath}^{\,b}\cdot\hat{\imath}^{\,b}\right)
-  + a_y^{b}\left(\hat{\jmath}^{\,b}\cdot\hat{\imath}^{\,b}\right)
-  + a_z^{b}\left(\hat{k}^{\,b}\cdot\hat{\imath}^{\,b}\right) \\[6pt]
-  \hat{\imath}^{\,b}\cdot\hat{\imath}^{\,b} = 1, \qquad
-  \hat{\jmath}^{\,b}\cdot\hat{\imath}^{\,b} &= 0, \qquad
-  \hat{k}^{\,b}\cdot\hat{\imath}^{\,b} = 0 \\[6pt]
-  a_x^{I}\left(\hat{\imath}^{\,I}\cdot\hat{\imath}^{\,b}\right)
-  + a_y^{I}\left(\hat{\jmath}^{\,I}\cdot\hat{\imath}^{\,b}\right)
-  + a_z^{I}\left(\hat{k}^{\,I}\cdot\hat{\imath}^{\,b}\right)
-  &= a_x^{b}(1) + a_y^{b}(0) + a_z^{b}(0) \\[6pt]
-  &= a_x^{b} + 0 + 0
+R^E_B = \begin{bmatrix}
+\cos\theta & \sin\phi\sin\theta & \cos\phi\sin\theta \\
+0 & \cos\phi & -\sin\phi \\
+-\sin\theta & \sin\phi\cos\theta & \cos\phi\cos\theta
+\end{bmatrix}
 \end{align}
 
-\begin{equation}
-  \boxed{\;a_x^{b} = a_x^{I}\left(\hat{\imath}^{\,I}\cdot\hat{\imath}^{\,b}\right)
-  + a_y^{I}\left(\hat{\jmath}^{\,I}\cdot\hat{\imath}^{\,b}\right)
-  + a_z^{I}\left(\hat{k}^{\,I}\cdot\hat{\imath}^{\,b}\right)\;}
-\end{equation}
+\subsection*{Vector de gravedad proyectado en el marco cuerpo}
 
-\subsection*{Producto punto con $\hat{\jmath}^{\,b}$}
+Se proyecta el vector de gravedad (definido en el marco inercial NED) hacia el marco cuerpo mediante la matriz de rotación, para obtener cómo ``siente'' el dron la gravedad según su inclinación.
 
 \begin{align}
-  \hat{\jmath}^{\,b}\cdot\left( a_x^{I}\,\hat{\imath}^{\,I} + a_y^{I}\,\hat{\jmath}^{\,I} + a_z^{I}\,\hat{k}^{\,I} \right)
-  &= \hat{\jmath}^{\,b}\cdot\left( a_x^{b}\,\hat{\imath}^{\,b} + a_y^{b}\,\hat{\jmath}^{\,b} + a_z^{b}\,\hat{k}^{\,b} \right) \\[6pt]
-  a_x^{I}\left(\hat{\imath}^{\,I}\cdot\hat{\jmath}^{\,b}\right)
-  + a_y^{I}\left(\hat{\jmath}^{\,I}\cdot\hat{\jmath}^{\,b}\right)
-  + a_z^{I}\left(\hat{k}^{\,I}\cdot\hat{\jmath}^{\,b}\right)
-  &= a_x^{b}\left(\hat{\imath}^{\,b}\cdot\hat{\jmath}^{\,b}\right)
-  + a_y^{b}\left(\hat{\jmath}^{\,b}\cdot\hat{\jmath}^{\,b}\right)
-  + a_z^{b}\left(\hat{k}^{\,b}\cdot\hat{\jmath}^{\,b}\right) \\[6pt]
-  \hat{\imath}^{\,b}\cdot\hat{\jmath}^{\,b} = 0, \qquad
-  \hat{\jmath}^{\,b}\cdot\hat{\jmath}^{\,b} &= 1, \qquad
-  \hat{k}^{\,b}\cdot\hat{\jmath}^{\,b} = 0 \\[6pt]
-  a_x^{I}\left(\hat{\imath}^{\,I}\cdot\hat{\jmath}^{\,b}\right)
-  + a_y^{I}\left(\hat{\jmath}^{\,I}\cdot\hat{\jmath}^{\,b}\right)
-  + a_z^{I}\left(\hat{k}^{\,I}\cdot\hat{\jmath}^{\,b}\right)
-  &= a_x^{b}(0) + a_y^{b}(1) + a_z^{b}(0) \\[6pt]
-  &= 0 + a_y^{b} + 0
+R^B_E \begin{bmatrix} 0 \\ 0 \\ mg \end{bmatrix} =
+\begin{bmatrix} -mg\sin\theta \\ mg\sin\phi\cos\theta \\ mg\cos\phi\cos\theta \end{bmatrix}
 \end{align}
 
-\begin{equation}
-  \boxed{\;a_y^{b} = a_x^{I}\left(\hat{\imath}^{\,I}\cdot\hat{\jmath}^{\,b}\right)
-  + a_y^{I}\left(\hat{\jmath}^{\,I}\cdot\hat{\jmath}^{\,b}\right)
-  + a_z^{I}\left(\hat{k}^{\,I}\cdot\hat{\jmath}^{\,b}\right)\;}
-\end{equation}
+\subsection*{Dinámica traslacional en el marco cuerpo}
 
-\subsection*{Producto punto con $\hat{k}^{\,b}$}
+Se aplica la segunda ley de Newton en cada eje del marco cuerpo: en $X$ e $Y$ solo actúa la componente de gravedad (no hay actuador en esos ejes), mientras que en $Z$ se suma el empuje total de los rotores $F_t$, dividido por la masa.
 
 \begin{align}
-  \hat{k}^{\,b}\cdot\left( a_x^{I}\,\hat{\imath}^{\,I} + a_y^{I}\,\hat{\jmath}^{\,I} + a_z^{I}\,\hat{k}^{\,I} \right)
-  &= \hat{k}^{\,b}\cdot\left( a_x^{b}\,\hat{\imath}^{\,b} + a_y^{b}\,\hat{\jmath}^{\,b} + a_z^{b}\,\hat{k}^{\,b} \right) \\[6pt]
-  a_x^{I}\left(\hat{\imath}^{\,I}\cdot\hat{k}^{\,b}\right)
-  + a_y^{I}\left(\hat{\jmath}^{\,I}\cdot\hat{k}^{\,b}\right)
-  + a_z^{I}\left(\hat{k}^{\,I}\cdot\hat{k}^{\,b}\right)
-  &= a_x^{b}\left(\hat{\imath}^{\,b}\cdot\hat{k}^{\,b}\right)
-  + a_y^{b}\left(\hat{\jmath}^{\,b}\cdot\hat{k}^{\,b}\right)
-  + a_z^{b}\left(\hat{k}^{\,b}\cdot\hat{k}^{\,b}\right) \\[6pt]
-  \hat{\imath}^{\,b}\cdot\hat{k}^{\,b} = 0, \qquad
-  \hat{\jmath}^{\,b}\cdot\hat{k}^{\,b} &= 0, \qquad
-  \hat{k}^{\,b}\cdot\hat{k}^{\,b} = 1 \\[6pt]
-  a_x^{I}\left(\hat{\imath}^{\,I}\cdot\hat{k}^{\,b}\right)
-  + a_y^{I}\left(\hat{\jmath}^{\,I}\cdot\hat{k}^{\,b}\right)
-  + a_z^{I}\left(\hat{k}^{\,I}\cdot\hat{k}^{\,b}\right)
-  &= a_x^{b}(0) + a_y^{b}(0) + a_z^{b}(1) \\[6pt]
-  &= 0 + 0 + a_z^{b}
+\dot u = -g\sin\theta, \qquad
+\dot v = g\cos\theta\sin\phi, \qquad
+\dot w = g\cos\theta\cos\phi - \frac{F_t}{m}
 \end{align}
 
-\begin{equation}
-  \boxed{\;a_z^{b} = a_x^{I}\left(\hat{\imath}^{\,I}\cdot\hat{k}^{\,b}\right)
-  + a_y^{I}\left(\hat{\jmath}^{\,I}\cdot\hat{k}^{\,b}\right)
-  + a_z^{I}\left(\hat{k}^{\,I}\cdot\hat{k}^{\,b}\right)\;}
-\end{equation}
+\subsection*{Proyección a aceleración inercial (NED)}
 
-\subsection*{Forma matricial}
+Se transforma la aceleración traslacional del marco cuerpo al marco inercial mediante $R^E_B$, obteniendo las aceleraciones $V_x, V_y, V_z$ que corresponden a $\ddot p_N, \ddot p_E, \ddot p_D$ --- las variables que maneja el controlador de posición.
 
 \begin{align}
-  a_x^{b} &= a_x^{I}\left(\hat{\imath}^{\,I}\cdot\hat{\imath}^{\,b}\right)
-           + a_y^{I}\left(\hat{\jmath}^{\,I}\cdot\hat{\imath}^{\,b}\right)
-           + a_z^{I}\left(\hat{k}^{\,I}\cdot\hat{\imath}^{\,b}\right) \\
-  a_y^{b} &= a_x^{I}\left(\hat{\imath}^{\,I}\cdot\hat{\jmath}^{\,b}\right)
-           + a_y^{I}\left(\hat{\jmath}^{\,I}\cdot\hat{\jmath}^{\,b}\right)
-           + a_z^{I}\left(\hat{k}^{\,I}\cdot\hat{\jmath}^{\,b}\right) \\
-  a_z^{b} &= a_x^{I}\left(\hat{\imath}^{\,I}\cdot\hat{k}^{\,b}\right)
-           + a_y^{I}\left(\hat{\jmath}^{\,I}\cdot\hat{k}^{\,b}\right)
-           + a_z^{I}\left(\hat{k}^{\,I}\cdot\hat{k}^{\,b}\right)
+\begin{bmatrix} V_x \\ V_y \\ V_z \end{bmatrix} = R^E_B
+\begin{bmatrix} \dot u \\ \dot v \\ \dot w \end{bmatrix}
 \end{align}
 
-\begin{equation}
-  \begin{bmatrix} a_x^{b} \\[4pt] a_y^{b} \\[4pt] a_z^{b} \end{bmatrix}
-  =
-  \begin{bmatrix}
-    \hat{\imath}^{\,I}\cdot\hat{\imath}^{\,b} & \hat{\jmath}^{\,I}\cdot\hat{\imath}^{\,b} & \hat{k}^{\,I}\cdot\hat{\imath}^{\,b} \\[5pt]
-    \hat{\imath}^{\,I}\cdot\hat{\jmath}^{\,b} & \hat{\jmath}^{\,I}\cdot\hat{\jmath}^{\,b} & \hat{k}^{\,I}\cdot\hat{\jmath}^{\,b} \\[5pt]
-    \hat{\imath}^{\,I}\cdot\hat{k}^{\,b}      & \hat{\jmath}^{\,I}\cdot\hat{k}^{\,b}      & \hat{k}^{\,I}\cdot\hat{k}^{\,b}
-  \end{bmatrix}
-  \begin{bmatrix} a_x^{I} \\[4pt] a_y^{I} \\[4pt] a_z^{I} \end{bmatrix}
-\end{equation}
+\subsection*{Expansión algebraica}
 
-\begin{equation}
-  \vec{a}^{\,b} = \bm{R}^{b}_{I}\,\vec{a}^{\,I}
-\end{equation}
-
-\subsection*{Evaluación para $\psi$ (guiñada)}
+Se desarrolla el producto matricial y se simplifica aplicando la identidad pitagórica $\sin^2 x+\cos^2 x=1$, cancelando los términos de gravedad cruzados y dejando expresiones compactas en función únicamente de $\phi$, $\theta$ y $F_t/m$.
 
 \begin{align}
-  \hat{\imath}^{\,I}\cdot\hat{\imath}^{\,b} &= \cos(\psi) \\[4pt]
-  \hat{\jmath}^{\,I}\cdot\hat{\imath}^{\,b} &= \cos(90^{\circ}-\psi)
-     = \cos(90^{\circ})\cos(\psi) + \sin(90^{\circ})\sin(\psi)
-     = (0)\cos(\psi) + (1)\sin(\psi) = \sin(\psi) \\[4pt]
-  \hat{k}^{\,I}\cdot\hat{\imath}^{\,b} &= \cos(90^{\circ}) = 0 \\[8pt]
-  \hat{\imath}^{\,I}\cdot\hat{\jmath}^{\,b} &= \cos(90^{\circ}+\psi)
-     = \cos(90^{\circ})\cos(\psi) - \sin(90^{\circ})\sin(\psi)
-     = (0)\cos(\psi) - (1)\sin(\psi) = -\sin(\psi) \\[4pt]
-  \hat{\jmath}^{\,I}\cdot\hat{\jmath}^{\,b} &= \cos(\psi) \\[4pt]
-  \hat{k}^{\,I}\cdot\hat{\jmath}^{\,b} &= \cos(90^{\circ}) = 0 \\[8pt]
-  \hat{\imath}^{\,I}\cdot\hat{k}^{\,b} &= \cos(90^{\circ}) = 0 \\[4pt]
-  \hat{\jmath}^{\,I}\cdot\hat{k}^{\,b} &= \cos(90^{\circ}) = 0 \\[4pt]
-  \hat{k}^{\,I}\cdot\hat{k}^{\,b} &= \cos(0^{\circ}) = 1
+V_x &= -\frac{F_t}{m}\sin\theta\cos\phi \\
+V_y &= \frac{F_t}{m}\sin\phi \\
+V_z &= g - \frac{F_t}{m}\cos\phi\cos\theta
 \end{align}
 
-\begin{equation}
-  \begin{bmatrix} a_x^{b} \\[4pt] a_y^{b} \\[4pt] a_z^{b} \end{bmatrix}
-  =
-  \begin{bmatrix}
-    \cos(\psi) & \sin(\psi) & 0 \\[4pt]
-   -\sin(\psi) & \cos(\psi) & 0 \\[4pt]
-    0          & 0          & 1
-  \end{bmatrix}
-  \begin{bmatrix} a_x^{I} \\[4pt] a_y^{I} \\[4pt] a_z^{I} \end{bmatrix}
-\end{equation}
+\subsection*{Inversión dinámica --- despeje del empuje}
+
+Se define $a=F_t/m$ y se eleva al cuadrado cada ecuación, sumándolas: al aplicar la identidad pitagórica dos veces (una para $\theta$, otra para $\phi$), todos los términos angulares se cancelan y queda una expresión directa para la magnitud de aceleración requerida, sin depender de los ángulos.
 
 \begin{align}
-  a_x^{b} &= a_x^{I}\cos(\psi) + a_y^{I}\sin(\psi) + a_z^{I}(0)
-           = a_x^{I}\cos(\psi) + a_y^{I}\sin(\psi) \\[4pt]
-  a_y^{b} &= -a_x^{I}\sin(\psi) + a_y^{I}\cos(\psi) + a_z^{I}(0)
-           = -a_x^{I}\sin(\psi) + a_y^{I}\cos(\psi) \\[4pt]
-  a_z^{b} &= a_x^{I}(0) + a_y^{I}(0) + a_z^{I}(1) = a_z^{I}
+a &\equiv \frac{F_t}{m} \\
+V_x^2+V_y^2+(g-V_z)^2 &= a^2\left(\sin^2\theta\cos^2\phi+\sin^2\phi+\cos^2\phi\cos^2\theta\right) = a^2 \\
+a &= \sqrt{V_x^2+V_y^2+(g-V_z)^2}, \qquad F_t = m\,a
 \end{align}
 
-\begin{equation}
-  \left(\bm{R}^{b}_{I}\right)^{-1} = \left(\bm{R}^{b}_{I}\right)^{\!\top} = \bm{R}^{I}_{b},
-  \qquad
-  \det\!\left(\bm{R}^{b}_{I}\right) = 1
-\end{equation}
+\subsection*{Inversión dinámica --- despeje del roll deseado}
+
+Con $a$ ya conocido, se despeja directamente $\phi_{ref}$ de la ecuación de $V_y$, que depende únicamente de $\phi$.
+
+\begin{align}
+\phi_{ref} = \arcsin\left(\frac{V_y}{a}\right)
+\end{align}
+
+\subsection*{Inversión dinámica --- despeje del pitch deseado}
+
+Con $a$ y $\phi_{ref}$ ya conocidos, se sustituyen en la ecuación de $V_x$ y se despeja $\theta_{ref}$, cerrando el sistema por sustitución en cascada.
+
+\begin{align}
+\theta_{ref} = \arcsin\left(\frac{-V_x}{a\cos\phi_{ref}}\right)
+\end{align}
+
+\subsection*{Resumen del bloque de inversión dinámica}
+
+Entradas: aceleraciones deseadas $V_{x,des}, V_{y,des}, V_{z,des}$ provenientes del controlador de posición. Salidas: referencias de actitud $\phi_{ref}, \theta_{ref}$ y empuje total $F_t$, que alimentan los controladores PID de actitud.
+
+\begin{align}
+a=\sqrt{V_x^2+V_y^2+(g-V_z)^2}, \quad
+F_t = m\,a, \quad
+\phi_{ref}=\arcsin\!\left(\frac{V_y}{a}\right), \quad
+\theta_{ref}=\arcsin\!\left(\frac{-V_x}{a\cos\phi_{ref}}\right)
+\end{align}
 
 
 
