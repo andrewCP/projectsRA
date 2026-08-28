@@ -1,16 +1,33 @@
-\documentclass{article}
-
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
 \usepackage{graphicx}
 
 \usepackage{fontspec}
 \usepackage[spanish,es-noshorthands]{babel}
 
-\usepackage{amsmath,amssymb}
+\usepackage{amsmath,amssymb,amsfonts}
 \usepackage{bm}
-
+\usepackage{booktabs}
 \usepackage{tikz}
 \usepackage{tikz-3dplot}
-\usetikzlibrary{arrows.meta}
+\usetikzlibrary{arrows.meta,positioning,calc}
+\usepackage{siunitx}
+
+\usepackage[colorlinks=true,linkcolor=blue,citecolor=blue]{hyperref}
+
+\sisetup{output-decimal-marker={.}, group-separator={\,}}
+
+% ---- Estilos para el diagrama de bloques -----------------------------
+\tikzset{
+  block/.style = {draw, thick, rectangle, minimum height=2.6em, minimum width=2.6em},
+  sum/.style   = {draw, thick, circle, inner sep=0pt, minimum size=6mm},
+  input/.style = {coordinate},
+  output/.style= {coordinate},
+  punto/.style = {circle, fill, inner sep=1.2pt}
+}
+
+\newcommand{\Lap}{\mathcal{L}}
+
 
 
 \title{Formalismo Matemático RA}
@@ -316,8 +333,9 @@ R^{I}_{b}
 \begin{bmatrix}
 u\\
 v\\
-w
+w\\
 \end{bmatrix}
+\]
 \paragraph{Andres Felipe Valderrama Medina}
 \begin{equation}
 \begin{bmatrix}
@@ -382,8 +400,7 @@ R_{b}^{I}
 \]
 
 
-\newcommand{\C}[1]{\cos(#1)}
-\newcommand{\Sin}[1]{\sin(#1)}
+
 \section*{Cinemática y Transformación de Coordenadas}
 \paragraph{David Santiago Sanabria Romero}
 % --- 1. Transformación v2 -> b ---
@@ -1339,5 +1356,351 @@ Tomando $f_s = 1 \times 10^{3} \; Hz$ como frecuencia de muestreo:
 \begin{equation}
     \boxed{\sigma^2 = 0.01539}
 \end{equation}
+
+\section{Plantas en lazo abierto}
+% ======================================================================
+
+A partir del modelo linealizado alrededor del vuelo estacionario, los cuatro
+canales quedan desacoplados y cada uno se reduce a un doble integrador:
+\begin{equation}
+\frac{\Phi(s)}{T_\phi(s)}=\frac{1/I_{xx}}{s^{2}},\qquad
+\frac{\Theta(s)}{T_\theta(s)}=\frac{1/I_{yy}}{s^{2}},\qquad
+\frac{\Psi(s)}{T_\psi(s)}=\frac{1/I_{zz}}{s^{2}},\qquad
+\frac{P_N(s)}{F_t(s)}=\frac{1/m}{s^{2}} .
+\label{eq:plantas}
+\end{equation}
+
+Las cuatro plantas comparten la misma estructura, por lo que se define la
+\textbf{planta genérica}
+\begin{equation}
+G(s)=\frac{Y(s)}{U(s)}=\frac{1/J}{s^{2}},
+\qquad
+J \in \{\,I_{xx},\;I_{yy},\;I_{zz},\;m\,\},\quad
+Y \in \{\,\Phi,\;\Theta,\;\Psi,\;P_N\,\},
+\label{eq:generica}
+\end{equation}
+donde $J$ es el parámetro inercial del canal. Todo el desarrollo se realiza una
+sola vez sobre \eqref{eq:generica} y luego se particulariza.
+
+% ======================================================================
+\section{Ley de control}
+% ======================================================================
+
+De acuerdo con el diagrama de bloques planteado, la ley de control es
+\begin{equation}
+u(t) = K_I \int_{0}^{t} e(\tau)\,d\tau \;-\; K_P\, y(t) \;-\; K_D\, \dot y(t),
+\qquad e(t)=r(t)-y(t).
+\label{eq:leycontrol}
+\end{equation}
+
+La acción integral actúa sobre el error $e=r-y$, mientras que las acciones
+proporcional y derivativa actúan sobre la salida $y$. Esta configuración se
+denomina \emph{PI--D}.
+
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}[auto, node distance=1.5cm, >=Latex, thick]
+
+  \node [input, name=input] {};
+  \node [sum, right=1.4cm of input] (sum1) {};
+  \node [block, right=1.2cm of sum1] (ki) {$K_I$};
+  \node [block, right=1.2cm of ki] (int) {$\dfrac{1}{s}$};
+  \node [sum, right=1.6cm of int] (sum2) {};
+  \node [block, right=1.4cm of sum2, minimum width=3.2em] (plant) {$\dfrac{1/J}{s^{2}}$};
+  \node [coordinate, right=1.0cm of plant] (fb) {};
+  \node [output, right=1.0cm of fb] (output) {};
+
+  \node [block, below=1.8cm of ki] (kp) {$K_P$};
+  \node [block, below=1.8cm of kp] (kd) {$K_D$};
+  \node [block, right=1.2cm of kd] (der) {$s$};
+
+  % camino directo
+  \draw [->] (input) -- node[pos=0.15,above] {$R(s)$} node[pos=0.85,above] {\small $+$} (sum1);
+  \draw [->] (sum1) -- node[above] {\small $E(s)$} (ki);
+  \draw [->] (ki) -- (int);
+  \draw [->] (int) -- node[pos=0.85,above] {\small $+$} (sum2);
+  \draw [->] (sum2) -- node[above] {$U(s)$} (plant);
+  \draw [-]  (plant) -- (fb);
+  \draw [->] (fb) -- node[above,pos=0.9] {$Y(s)$} (output);
+  \node [punto] at (fb) {};
+
+  % realimentación principal
+  \draw [-]  (fb) -- ++(0,-5.9) coordinate (bottom);
+  \draw [->] (bottom) -| node[pos=0.93,left] {\small $-$} (sum1);
+
+  % ramas P y D
+  \node [punto] at (sum1 |- kp) {};
+  \node [punto] at (sum1 |- kd) {};
+  \draw [->] (sum1 |- kp) -- (kp);
+  \draw [->] (sum1 |- kd) -- (kd);
+  \draw [->] (kd) -- (der);
+  \draw [->] (kp.east) -| node[pos=0.93,left] {\small $-$} (sum2.south);
+  \draw [->] (der.east) -| node[pos=0.93,right] {\small $-$} (sum2.south east);
+
+\end{tikzpicture}
+\caption{Estructura PI--D aplicada a la planta genérica $G(s)=\dfrac{1/J}{s^{2}}$.
+Para el canal de alabeo, $J=I_{xx}$, $Y=\Phi$ y $R$ es la referencia de alabeo.}
+\label{fig:bloques}
+\end{figure}
+
+% ======================================================================
+\section{Función de transferencia en lazo cerrado}
+\label{sec:lazocerrado Santiago}
+% ======================================================================
+
+\paragraph{Paso 1: transformada de Laplace de la ley de control.}
+Aplicando $\Lap\{\cdot\}$ a \eqref{eq:leycontrol} con condiciones iniciales
+nulas, y usando $\Lap\{\int_0^t e\} = E(s)/s$ y $\Lap\{\dot y\}=sY(s)$:
+\begin{equation}
+U(s)=\frac{K_I}{s}\,E(s)-K_P\,Y(s)-K_D\,s\,Y(s).
+\end{equation}
+
+\paragraph{Paso 2: sustitución del error.}
+Con $E(s)=R(s)-Y(s)$,
+\begin{equation}
+U(s)=\frac{K_I}{s}\big[R(s)-Y(s)\big]-K_P\,Y(s)-K_D\,s\,Y(s).
+\label{eq:paso2}
+\end{equation}
+
+\paragraph{Paso 3: ecuación de la planta.}
+De \eqref{eq:generica},
+\begin{equation}
+Y(s)=\frac{1/J}{s^{2}}\,U(s)
+\qquad\Longleftrightarrow\qquad
+U(s)=J\,s^{2}\,Y(s).
+\label{eq:paso3}
+\end{equation}
+
+\paragraph{Paso 4: igualación.}
+Sustituyendo \eqref{eq:paso3} en \eqref{eq:paso2}:
+\begin{equation}
+J\,s^{2}\,Y(s)=\frac{K_I}{s}R(s)-\frac{K_I}{s}Y(s)-K_P\,Y(s)-K_D\,s\,Y(s).
+\end{equation}
+
+\paragraph{Paso 5: eliminación de denominadores.}
+Multiplicando toda la ecuación por $s$:
+\begin{equation}
+J\,s^{3}\,Y(s)=K_I\,R(s)-K_I\,Y(s)-K_P\,s\,Y(s)-K_D\,s^{2}\,Y(s).
+\end{equation}
+
+\paragraph{Paso 6: agrupación de términos en $Y(s)$.}
+\begin{equation}
+Y(s)\Big[J\,s^{3}+K_D\,s^{2}+K_P\,s+K_I\Big]=K_I\,R(s).
+\end{equation}
+
+\paragraph{Paso 7: función de transferencia.}
+\begin{equation}
+\boxed{\;
+\frac{Y(s)}{R(s)}=\frac{K_I}{J\,s^{3}+K_D\,s^{2}+K_P\,s+K_I}
+=\frac{K_I/J}{s^{3}+\dfrac{K_D}{J}s^{2}+\dfrac{K_P}{J}s+\dfrac{K_I}{J}} \;}
+\label{eq:lazocerrado}
+\end{equation}
+
+El lazo cerrado resulta de tercer orden: los dos polos de la planta más el polo
+aportado por el integrador.
+
+\subsection{Particularización a los cuatro canales}
+
+Reemplazando $J$ y $Y$ en \eqref{eq:lazocerrado} se obtienen directamente las
+cuatro funciones de transferencia.
+
+\paragraph{Alabeo (\emph{roll}), $J=I_{xx}$:}
+\begin{equation}
+\boxed{\;\frac{\Phi(s)}{R_\phi(s)}
+=\frac{K_{I\phi}}{I_{xx}s^{3}+K_{D\phi}s^{2}+K_{P\phi}s+K_{I\phi}}\;}
+\end{equation}
+
+\paragraph{Cabeceo (\emph{pitch}), $J=I_{yy}$:}
+\begin{equation}
+\boxed{\;\frac{\Theta(s)}{R_\theta(s)}
+=\frac{K_{I\theta}}{I_{yy}s^{3}+K_{D\theta}s^{2}+K_{P\theta}s+K_{I\theta}}\;}
+\end{equation}
+
+\paragraph{Guiñada (\emph{yaw}), $J=I_{zz}$:}
+\begin{equation}
+\boxed{\;\frac{\Psi(s)}{R_\psi(s)}
+=\frac{K_{I\psi}}{I_{zz}s^{3}+K_{D\psi}s^{2}+K_{P\psi}s+K_{I\psi}}\;}
+\end{equation}
+
+\paragraph{Posición norte, $J=m$:}
+\begin{equation}
+\boxed{\;\frac{P_N(s)}{R_{p}(s)}
+=\frac{K_{Ip}}{m\,s^{3}+K_{Dp}s^{2}+K_{Pp}s+K_{Ip}}\;}
+\end{equation}
+
+Puesto que en un cuadricóptero simétrico $I_{xx}=I_{yy}$, los canales de alabeo
+y cabeceo son idénticos y comparten la misma sintonización.
+
+% ======================================================================
+\section{Diseño por asignación de polos}
+% ======================================================================
+
+\subsection{Especificaciones de diseño}
+
+Se adopta un amortiguamiento $\zeta=0.9$ para todos los canales, de modo que la
+respuesta sea prácticamente sin oscilación. El tiempo de establecimiento se fija
+según una jerarquía de lazos: el lazo interno de actitud debe ser el más rápido,
+la guiñada intermedia y el lazo externo de posición el más lento.
+
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+Canal & $\zeta$ & $t_{ss}$ [s] \\
+\midrule
+Alabeo $\phi$ y cabeceo $\theta$ & 0.9 & 0.5 \\
+Guiñada $\psi$                   & 0.9 & 1.0 \\
+Posición $p_N$                   & 0.9 & 2.0 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Con el criterio del 2%,
+\begin{equation}
+t_{ss}\approx\frac{4}{\zeta\omega_n}
+\qquad\Longrightarrow\qquad
+\omega_n=\frac{4}{\zeta\,t_{ss}} .
+\label{eq:wn}
+\end{equation}
+
+El tercer polo se ubica en $p=5\zeta\omega_n$, suficientemente alejado del par
+dominante para que su efecto transitorio sea despreciable.
+
+\subsection{Polinomio característico deseado e igualación}
+
+Los polos deseados corresponden a un par complejo conjugado dominante y un polo
+real:
+\begin{equation}
+\Delta_d(s)=\big(s^{2}+2\zeta\omega_n s+\omega_n^{2}\big)\big(s+p\big).
+\end{equation}
+
+Desarrollando el producto:
+\begin{align}
+\Delta_d(s)&=s^{3}+2\zeta\omega_n s^{2}+\omega_n^{2}s
+            +p\,s^{2}+2\zeta\omega_n p\,s+\omega_n^{2}p \nonumber\\[2pt]
+&=s^{3}+\big(2\zeta\omega_n+p\big)s^{2}
+       +\big(\omega_n^{2}+2\zeta\omega_n p\big)s
+       +\omega_n^{2}p .
+\label{eq:deltad}
+\end{align}
+
+El polinomio característico del lazo cerrado, tomado del denominador de
+\eqref{eq:lazocerrado} en forma mónica, es
+\begin{equation}
+\Delta(s)=s^{3}+\frac{K_D}{J}s^{2}+\frac{K_P}{J}s+\frac{K_I}{J}.
+\label{eq:delta}
+\end{equation}
+
+Igualando \eqref{eq:delta} con \eqref{eq:deltad} coeficiente a coeficiente:
+\begin{equation}
+\frac{K_D}{J}=2\zeta\omega_n+p,\qquad
+\frac{K_P}{J}=\omega_n^{2}+2\zeta\omega_n p,\qquad
+\frac{K_I}{J}=\omega_n^{2}p ,
+\end{equation}
+y despejando las ganancias:
+\begin{equation}
+\boxed{\;
+K_D=J\big(2\zeta\omega_n+p\big),\qquad
+K_P=J\big(\omega_n^{2}+2\zeta\omega_n p\big),\qquad
+K_I=J\,\omega_n^{2}\,p \;}
+\label{eq:ganancias}
+\end{equation}
+
+Las tres ganancias resultan proporcionales al parámetro inercial $J$ del canal.
+
+\subsection{Aplicación a cada canal}
+
+Evaluando \eqref{eq:wn} con $\zeta=0.9$ y $p=5\zeta\omega_n$:
+
+\begin{center}
+\begin{tabular}{lcccc}
+\toprule
+Canal & $t_{ss}$ [s] & $\omega_n$ [rad/s] & $\zeta\omega_n$ & $p$ [rad/s]\\
+\midrule
+$\phi,\ \theta$ & 0.5 & 8.889 & 8 & 40 \\
+$\psi$          & 1.0 & 4.444 & 4 & 20 \\
+$p_N$           & 2.0 & 2.222 & 2 & 10 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Sustituyendo estos valores en \eqref{eq:ganancias} se obtienen las ganancias en
+forma simbólica:
+
+\begin{center}
+\begin{tabular}{lccc}
+\toprule
+Canal & $K_P$ & $K_I$ & $K_D$ \\
+\midrule
+$\phi$   & $719.01\,I_{xx}$ & $3160.49\,I_{xx}$ & $56\,I_{xx}$ \\
+$\theta$ & $719.01\,I_{yy}$ & $3160.49\,I_{yy}$ & $56\,I_{yy}$ \\
+$\psi$   & $179.75\,I_{zz}$ & $\phantom{0}395.06\,I_{zz}$ & $28\,I_{zz}$ \\
+$p_N$    & $\phantom{0}44.94\,m$ & $\phantom{00}49.38\,m$ & $14\,m$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{Valores numéricos}
+
+Empleando los momentos de inercia deducidos en la sección de modelado,
+\begin{equation}
+I_{xx}=I_{yy}=\frac{2MR^{2}}{5}+2\ell^{2}m_r,
+\qquad
+I_{zz}=\frac{2MR^{2}}{5}+4\ell^{2}m_r,
+\qquad
+m=M+4m_r ,
+\end{equation}
+con $M=\SI{1.0}{\kilogram}$, $R=\SI{0.05}{\meter}$, $\ell=\SI{0.225}{\meter}$ y
+$m_r=\SI{0.06}{\kilogram}$:
+\begin{equation}
+I_{xx}=I_{yy}=\SI{7.075e-3}{\kilogram\meter\squared},\qquad
+I_{zz}=\SI{1.315e-2}{\kilogram\meter\squared},\qquad
+m=\SI{1.24}{\kilogram}.
+\end{equation}
+
+\begin{center}
+\begin{tabular}{lcccc}
+\toprule
+Canal & $J$ & $K_P$ & $K_I$ & $K_D$ \\
+\midrule
+$\phi$   & \num{7.075e-3} & \num{5.0870}  & \num{22.3605} & \num{0.39620} \\
+$\theta$ & \num{7.075e-3} & \num{5.0870}  & \num{22.3605} & \num{0.39620} \\
+$\psi$   & \num{1.315e-2} & \num{2.3638}  & \num{5.1951}  & \num{0.36820} \\
+$p_N$    & \num{1.24}     & \num{55.7235} & \num{61.2346} & \num{17.3600} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Las funciones de transferencia en lazo cerrado quedan entonces
+\begin{align}
+\frac{\Phi(s)}{R_\phi(s)}=\frac{\Theta(s)}{R_\theta(s)}
+&=\frac{3160.5}{s^{3}+56\,s^{2}+719.0\,s+3160.5},\\[6pt]
+\frac{\Psi(s)}{R_\psi(s)}
+&=\frac{395.06}{s^{3}+28\,s^{2}+179.75\,s+395.06},\\[6pt]
+\frac{P_N(s)}{R_p(s)}
+&=\frac{49.383}{s^{3}+14\,s^{2}+44.938\,s+49.383},
+\end{align}
+cuyos polos son, por construcción, los asignados:
+
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+Canal & Par dominante & Polo real \\
+\midrule
+$\phi,\ \theta$ & $-8 \pm j3.874$ & $-40$ \\
+$\psi$          & $-4 \pm j1.937$ & $-20$ \\
+$p_N$           & $-2 \pm j0.968$ & $-10$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent
+donde la parte imaginaria corresponde a
+$\omega_d=\omega_n\sqrt{1-\zeta^{2}}$.
+
+
+
+
+
+
 
 \end{document}
