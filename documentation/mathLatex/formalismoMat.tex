@@ -1698,8 +1698,6 @@ donde la parte imaginaria corresponde a
 $\omega_d=\omega_n\sqrt{1-\zeta^{2}}$.
 
 
-
-
 \paragraph{Angelica Gabriela Gomez}
 Relación entre aceleraciones y matriz de rotación
 \begin{equation}
@@ -1929,153 +1927,14 @@ P_{k+1}
 Q_k
 \end{equation}
 
-
 \paragraph{Juan Camilo Blanco}
+
 \section{Matriz de asignación de actuadores en dron tipo Quad X}
 
-Los vectores de posición de los cuatro rotores respecto al centro de masa del dron
+Los vectores de posición de los cuatro rotores respecto al centro de masa del dron son:
 
 \begin{equation}
-\mathbf{r}_1 =\paragraph{Juan Camilo Blanco}
-\section{Matriz de asignacion de actuadores en dron tipo Quad X}
-
 \mathbf{r}_1 =
-\begin{bmatrix}
-\dfrac{L}{\sqrt{2}} \\
-\dfrac{L}{\sqrt{2}} \\
-0
-\end{bmatrix}
-
-\mathbf{r}_2 =
-\begin{bmatrix}
--\dfrac{L}{\sqrt{2}} \\
-\dfrac{L}{\sqrt{2}} \\
-0
-\end{bmatrix}
-
-\mathbf{r}_3 =
-\begin{bmatrix}
-\dfrac{L}{\sqrt{2}} \\
--\dfrac{L}{\sqrt{2}} \\
-0
-\end{bmatrix}
-
-\mathbf{r}_4 =
-\begin{bmatrix}
--\dfrac{L}{\sqrt{2}} \\
--\dfrac{L}{\sqrt{2}} \\
-0
-\end{bmatrix}
-
-Torques producidos por cada rotor
-rotor 1
-
-\begin{align}
-\mathbf{T}_1
-&= \mathbf{r}_1 \times \mathbf{F}_{T_1} \\[2mm]
-&=
-\begin{vmatrix}
-\hat{\mathbf{i}} & \hat{\mathbf{j}} & \hat{\mathbf{k}} \\
-\dfrac{L}{\sqrt{2}} & \dfrac{L}{\sqrt{2}} & 0 \\
-0 & 0 & -F_{T_1}
-\end{vmatrix} \\[3mm]
-&=
-\begin{bmatrix}
--\dfrac{L}{\sqrt{2}}F_{T_1} \\
-\dfrac{L}{\sqrt{2}}F_{T_1} \\
-0
-\end{bmatrix}
-\end{align}
-
-rotor 2
-
-\begin{align}
-\mathbf{T}_2
-&= \mathbf{r}_2 \times \mathbf{F}_{T_2} \\[2mm]
-&=
-\begin{vmatrix}
-\hat{\mathbf{i}} & \hat{\mathbf{j}} & \hat{\mathbf{k}} \\
--\dfrac{L}{\sqrt{2}} & \dfrac{L}{\sqrt{2}} & 0 \\
-0 & 0 & -F_{T_2}
-\end{vmatrix} \\[3mm]
-&=
-\begin{bmatrix}
--\dfrac{L}{\sqrt{2}}F_{T_2} \\
--\dfrac{L}{\sqrt{2}}F_{T_2} \\
-0
-\end{bmatrix}
-\end{align}
-
-rotor 3
-
-\begin{align}
-\mathbf{T}_3
-&= \mathbf{r}_3 \times \mathbf{F}_{T_3} \\[2mm]
-&=
-\begin{vmatrix}
-\hat{\mathbf{i}} & \hat{\mathbf{j}} & \hat{\mathbf{k}} \\
-\dfrac{L}{\sqrt{2}} & -\dfrac{L}{\sqrt{2}} & 0 \\
-0 & 0 & -F_{T_3}
-\end{vmatrix} \\[3mm]
-&=
-\begin{bmatrix}
-\dfrac{L}{\sqrt{2}}F_{T_3} \\
-\dfrac{L}{\sqrt{2}}F_{T_3} \\
-0
-\end{bmatrix}
-\end{align}
-
-rotor 4
-
-\begin{align}
-\mathbf{T}_4
-&= \mathbf{r}_4 \times \mathbf{F}_{T_4} \\[2mm]
-&=
-\begin{vmatrix}
-\hat{\mathbf{i}} & \hat{\mathbf{j}} & \hat{\mathbf{k}} \\
--\dfrac{L}{\sqrt{2}} & -\dfrac{L}{\sqrt{2}} & 0 \\
-0 & 0 & -F_{T_4}
-\end{vmatrix} \\[3mm]
-&=
-\begin{bmatrix}
-\dfrac{L}{\sqrt{2}}F_{T_4} \\
--\dfrac{L}{\sqrt{2}}F_{T_4} \\
-0
-\end{bmatrix}
-\end{align}
-
-\mathbf{F}_{T_i} =
-\begin{bmatrix}
-0 \\
-0 \\
--F_{T_i}
-\end{bmatrix}
-
-Torques totales
-
-\begin{align}
-\tau_y &= T_1 + T_2 + T_3 + T_4 \\
-       &= L F_{T_1} - L F_{T_2} + L F_{T_3} - L F_{T_4} \\
-       &= L\left(F_{T_1} + F_{T_3} - F_{T_2} - F_{T_4}\right) \\
-       &= L K_T\left(\Omega_1^2 + \Omega_3^2 - \Omega_2^2 - \Omega_4^2\right)
-\end{align}
-
-\begin{align}
-\tau_x &= T_2 + T_3 + T_1 + T_4 \\
-       &= L\left(F_{T_2} + F_{T_3} - F_{T_1} - F_{T_4}\right) \\
-       &= L K_T\left(\Omega_2^2 + \Omega_3^2 - \Omega_1^2 - \Omega_4^2\right)
-\end{align}
-
-\begin{align}
-\tau_z &= Q_1 + Q_2 - Q_3 - Q_4 \\
-       &= K_Q\left(\Omega_1^2 + \Omega_2^2 - \Omega_3^2 - \Omega_4^2\right)
-\end{align}
-
-con Q = K_Q \Omega^2 
-
-\begin{align}
-F_T &= K_T\left(\Omega_1^2 + \Omega_2^2 + \Omega_3^2 + \Omega_4^2\right)
-\end{align}
 \begin{bmatrix}
 \dfrac{L}{\sqrt{2}} \\
 \dfrac{L}{\sqrt{2}} \\
@@ -2259,12 +2118,15 @@ Q = K_Q \Omega^2
 
 Finalmente, la fuerza total producida por los cuatro rotores es:
 
-\begin{align}
-F_T
-&= K_T\left(
+\begin{equation}
+F_T =
+K_T\left(
 \Omega_1^2 + \Omega_2^2
 + \Omega_3^2 + \Omega_4^2
 \right)
-\end{align}
+\end{equation}
+
+
+
 
 \end{document}
