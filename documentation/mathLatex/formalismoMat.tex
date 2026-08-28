@@ -20,6 +20,49 @@
 \begin{document}
 
 \maketitle
+
+
+\section{Paso 5,6 y 7 ejercicio 4 del parcial}
+
+\paragraph{Juan Camilo Tovar Chaves 1804242}
+
+
+\textbf{Paso 5: Despejar el término de las derivadas.} \\
+Pasamos el vector resultante del producto cruz al lado derecho (restando, lo que cambia sus signos) y pre-multiplicamos toda la ecuación por la matriz inversa de inercia $I^{-1}$:
+\begin{equation*}
+    \begin{pmatrix} \dot{p} \\ \dot{q} \\ \dot{r} \end{pmatrix} =
+    I^{-1} \begin{pmatrix}
+    I_{xz}pq - I_{zz}qr + I_{yy}qr \\
+    -I_{xz}p^2 + I_{zz}rp - I_{xx}pr - I_{xz}r^2 \\
+    -I_{yy}qp + I_{xx}pq - I_{xz}qr
+    \end{pmatrix} + I^{-1} \begin{pmatrix} \tau_x \\ \tau_y \\ \tau_z \end{pmatrix}
+\end{equation*}
+
+\vspace{0.3cm}
+\textbf{Paso 6: Encontrar la matriz inversa $I^{-1}$.} \\
+Determinamos la inversa de la matriz de inercia $I$. Al tener varios ceros, se invierte fácilmente por bloques, resultando en:
+\begin{equation*}
+    I^{-1} = \begin{pmatrix}
+    \frac{I_{zz}}{I_{xx}I_{zz} - I_{xz}^2} & 0 & \frac{I_{xz}}{I_{xx}I_{zz} - I_{xz}^2} \\[10pt]
+    0 & \frac{1}{I_{yy}} & 0 \\[10pt]
+    \frac{I_{xz}}{I_{xx}I_{zz} - I_{xz}^2} & 0 & \frac{I_{xx}}{I_{xx}I_{zz} - I_{xz}^2}
+    \end{pmatrix}
+\end{equation*}
+
+\vspace{0.3cm}
+\textbf{Paso 7: Reemplazar $I^{-1}$ y obtener las ecuaciones escalares para $\dot{p}, \dot{q}, \dot{r}$.} \\
+Multiplicamos la matriz inversa $I^{-1}$ obtenida en el Paso 6 por los vectores de la ecuación del Paso 5. Para simplificar la notación, definimos el denominador común $\Gamma = I_{xx}I_{zz} - I_{xz}^2$. Efectuando el producto matriz-vector fila por fila, obtenemos las tres ecuaciones escalares:
+
+\begin{align*}
+    \dot{p} &= \frac{I_{zz}}{\Gamma} \big( I_{xz}pq - I_{zz}qr + I_{yy}qr \big) + \frac{I_{xz}}{\Gamma} \big( -I_{yy}qp + I_{xx}pq - I_{xz}qr \big) + \frac{I_{zz}}{\Gamma}\tau_x + \frac{I_{xz}}{\Gamma}\tau_z \\[10pt]
+    \dot{q} &= \frac{1}{I_{yy}} \big( -I_{xz}p^2 + I_{zz}rp - I_{xx}pr + I_{xz}r^2 \big) + \frac{1}{I_{yy}}\tau_y \\[10pt]
+    \dot{r} &= \frac{I_{xz}}{\Gamma} \big( I_{xz}pq - I_{zz}qr + I_{yy}qr \big) + \frac{I_{xx}}{\Gamma} \big( -I_{yy}qp + I_{xx}pq - I_{xz}qr \big) + \frac{I_{xz}}{\Gamma}\tau_x + \frac{I_{xx}}{\Gamma}\tau_z
+\end{align*}
+
+
+
+
+
 \section{Marcos de referencia y matrices de rotation}
 \paragraph{Osuna}
 \subsection*{Expresión del vector en ambos marcos}
