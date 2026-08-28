@@ -2582,6 +2582,84 @@ Como
 \psi=rt,
 \end{equation}
 
+\section{4to punto del parcial: Primera parte}
+
+\paragraph{Nombre del estudiante: Juan Esteban Rodriguez Romero codigo:1804268 }
+
+\vspace{0.5cm}
+
+\section*{Enunciado del Problema}
+
+\textbf{Ex4.} La dinámica rotacional de una aeronave de cuerpo rígido está descrita por las ecuaciones de Newton-Euler:
+\begin{equation*}
+    I\dot{\omega} + \omega \times (I\omega) = \tau
+\end{equation*}
+Donde:
+\begin{equation*}
+    I = \begin{pmatrix}
+    I_{xx} & 0 & -I_{xz} \\
+    0 & I_{yy} & 0 \\
+    -I_{xz} & 0 & I_{zz}
+    \end{pmatrix}
+\end{equation*}
+
+Derive las tres ecuaciones escalares para $\dot{p}, \dot{q}, \dot{r}$ en términos de $I_{xx}, I_{yy}, I_{zz}, p, q, r$ y $\tau_x, \tau_y, \tau_z$. (2pt)
+
+\vspace{0.5cm}
+
+\section*{Solución Paso a Paso}
+
+Para resolver este problema, primero identificamos y definimos los vectores de velocidad angular $\omega$, su derivada temporal (aceleración angular) $\dot{\omega}$ y el vector de torques $\tau$:
+\begin{equation*}
+    \omega = \begin{pmatrix} p \\ q \\ r \end{pmatrix}, \quad
+    \dot{\omega} = \begin{pmatrix} \dot{p} \\ \dot{q} \\ \dot{r} \end{pmatrix}, \quad
+    \tau = \begin{pmatrix} \tau_x \\ \tau_y \\ \tau_z \end{pmatrix}
+\end{equation*}
+
+\textbf{Paso 1: Sustituir los vectores en la ecuación principal.} \\
+Reemplazamos $\omega$, $\dot{\omega}$, $I$ y $\tau$ en la ecuación de Newton-Euler:
+\begin{equation*}
+    I \begin{pmatrix} \dot{p} \\ \dot{q} \\ \dot{r} \end{pmatrix} +
+    \begin{pmatrix} p \\ q \\ r \end{pmatrix} \times
+    \left[ \begin{pmatrix} I_{xx} & 0 & -I_{xz} \\ 0 & I_{yy} & 0 \\ -I_{xz} & 0 & I_{zz} \end{pmatrix} \begin{pmatrix} p \\ q \\ r \end{pmatrix} \right] = \begin{pmatrix} \tau_x \\ \tau_y \\ \tau_z \end{pmatrix}
+\end{equation*}
+
+\vspace{0.3cm}
+\textbf{Paso 2: Calcular el producto matriz-vector $I\omega$.} \\
+Multiplicamos la matriz de inercia $I$ por el vector de velocidad angular $\omega$:
+\begin{equation*}
+    I\omega = \begin{pmatrix} I_{xx}p - I_{xz}r \\ I_{yy}q \\ -I_{xz}p + I_{zz}r \end{pmatrix}
+\end{equation*}
+
+\vspace{0.3cm}
+\textbf{Paso 3: Plantear el producto cruz $\omega \times (I\omega)$.} \\
+Escribimos el producto cruz utilizando la notación de determinante con los vectores unitarios $\hat{i}, \hat{j}, \hat{k}$:
+\begin{equation*}
+    I \begin{pmatrix} \dot{p} \\ \dot{q} \\ \dot{r} \end{pmatrix} +
+    \begin{vmatrix}
+    \hat{i} & \hat{j} & \hat{k} \\
+    p & q & r \\
+    I_{xx}p - I_{xz}r & I_{yy}q & -I_{xz}p + I_{zz}r
+    \end{vmatrix} = \begin{pmatrix} \tau_x \\ \tau_y \\ \tau_z \end{pmatrix}
+\end{equation*}
+
+\vspace{0.3cm}
+\textbf{Paso 4: Resolver el determinante (producto cruz).} \\
+Desarrollamos el determinante por cofactores para cada fila:
+\begin{itemize}
+    \item Componente en $\hat{i}$: $q(-I_{xz}p + I_{zz}r) - r(I_{yy}q)$
+    \item Componente en $\hat{j}$: $- [p(-I_{xz}p + I_{zz}r) - r(I_{xx}p - I_{xz}r)]$
+    \item Componente en $\hat{k}$: $p(I_{yy}q) - q(I_{xx}p - I_{xz}r)$
+\end{itemize}
+Agrupando estos términos en un vector, la ecuación queda:
+\begin{equation*}
+    I \begin{pmatrix} \dot{p} \\ \dot{q} \\ \dot{r} \end{pmatrix} +
+    \begin{pmatrix}
+    q(-I_{xz}p + I_{zz}r) - I_{yy}qr \\
+    -p(-I_{xz}p + I_{zz}r) + r(I_{xx}p - I_{xz}r) \\
+    p(I_{yy}q) - q(I_{xx}p - I_{xz}r)
+    \end{pmatrix} = \begin{pmatrix} \tau_x \\ \tau_y \\ \tau_z \end{pmatrix}
+\end{equation*}
 la matriz de rotación se reduce a
 
 \begin{equation}
