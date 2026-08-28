@@ -1223,4 +1223,121 @@ Marco de referencia inercial NED y marco Body con los ángulos de Euler.
 \label{fig:frames}
 \end{figure}
 
+ 
+\section{Modelo de Sensores Inerciales Densidad Espectral de Potencia (PSD)}
+ \paragraph{Lopez Michell}
+El modelo matemático que describe la medición de un acelerómetro está dado por:
+ 
+\begin{equation}
+    a_m = M_a \cdot a + b_a + n_a
+\end{equation}
+ 
+Donde cada término representa lo siguiente:
+ 
+\begin{itemize}
+    \item $a_m$: Aceleración medida.
+    \item $M_a$: Matriz que representa la ganancia, desalineamiento entre ejes y escala.
+    \item $a$: Aceleración real que mide el acelerómetro.
+    \item $b_a$: Bias o sesgo del acelerómetro.
+    \item $n_a$: Ruido de la medición.
+\end{itemize}
+ 
+\subsection{Ruido de la medición}
+ 
+El ruido de la medición $n_a$ se modela como una variable aleatoria con distribución normal de media cero y varianza $\sigma^2$:
+ 
+\begin{equation}
+    n_a \sim N(0, \sigma^2)
+\end{equation}
+ 
+A continuación se muestra la representación gráfica de la distribución normal y su Densidad Espectral de Potencia (PSD) correspondiente:
+ 
+\begin{center}
+% --- Campana de Gauss ---
+\begin{tikzpicture}[scale=1]
+    \node at (0,2.1) {$N(0,\sigma^2)$};
+    % Ejes
+    \draw[-latex] (-2.5,0) -- (2.5,0);
+    \draw[-latex] (0,0) -- (0,2);
+    % Curva gaussiana
+    \draw[thick, purple, domain=-2.2:2.2, samples=80, smooth]
+        plot (\x, {1.8*exp(-\x*\x/2)});
+    % Marcas en el eje x
+    \foreach \x/\lbl in {-2/-2\sigma, -1/-\sigma, 0/0, 1/\sigma, 2/2\sigma} {
+        \draw (\x,0.05) -- (\x,-0.05) node[below] {\footnotesize $\lbl$};
+    }
+\end{tikzpicture}
+\hspace{1.5cm}
+% --- PSD constante ---
+\begin{tikzpicture}[scale=1]
+    \node at (0,2.1) {PSD};
+    % Ejes
+    \draw[-latex] (-2.5,0) -- (2.5,0) node[right] {$\omega$};
+    \draw (-2.3,0) node[below] {\footnotesize $-\omega$};
+    \draw[-latex] (0,0) -- (0,2);
+    % Linea PSD constante, tipo onda seno
+    \draw[thick, purple, domain=-2.3:2.3, samples=150, smooth]
+        plot (\x, {1 + 0.06*sin(deg(6*\x))});
+\end{tikzpicture}
+\end{center}
+ 
+La Densidad Espectral de Potencia (PSD) de este tipo de ruido es \textbf{constante} en todo el espectro de frecuencias, y sus unidades están dadas por:
+ 
+\begin{equation}
+    PSD = \text{Constante} \; \left[ \dfrac{(\text{Unidades})^2}{Hz} \right]
+\end{equation}
+ 
+\newpage
+ 
+\section{Ejemplo: Sensor MPU-6050}
+ 
+ 
+\subsection{Densidad de ruido (Noise Density)}
+ 
+\begin{equation}
+    N_a = 400 \; \dfrac{\mu g}{\sqrt{Hz}}
+\end{equation}
+ 
+Convirtiendo las unidades de $\mu g$ a $m/s^2$ (multiplicando por $9.81 \; m/s^2$):
+ 
+\begin{equation}
+    N_a = \dfrac{400 \times 10^{-6} \cdot 9.81 \; m/s^2}{\sqrt{Hz}}
+\end{equation}
+ 
+\begin{equation}
+    N_a = 3.924 \times 10^{-3} \; \dfrac{m/s^2}{\sqrt{Hz}}
+\end{equation}
+ 
+\subsection{Cálculo de la PSD}
+ 
+Sabiendo que la relación entre la densidad de ruido y la PSD es:
+ 
+\begin{equation}
+    PSD = N_a^2
+\end{equation}
+ 
+Sustituyendo el valor obtenido:
+ 
+\begin{equation}
+    PSD = 1.539 \times 10^{-5} \; \dfrac{(m/s^2)^2}{Hz}
+\end{equation}
+ 
+\subsection{Cálculo de la varianza}
+ 
+La varianza del ruido se relaciona con la PSD y la frecuencia de muestreo $f_s$ mediante:
+ 
+\begin{equation}
+    \sigma^2 = PSD \cdot f_s \quad \text{(} f_s \text{: frecuencia de muestreo)}
+\end{equation}
+ 
+Tomando $f_s = 1 \times 10^{3} \; Hz$ como frecuencia de muestreo:
+ 
+\begin{equation}
+    \sigma^2 = 1.539 \times 10^{-5} \cdot (1 \times 10^{3})
+\end{equation}
+ 
+\begin{equation}
+    \boxed{\sigma^2 = 0.01539}
+\end{equation}
+
 \end{document}
