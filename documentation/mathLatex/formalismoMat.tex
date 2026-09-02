@@ -1,11 +1,17 @@
 \documentclass{article}
-\usepackage{graphicx} % Required for inserting images
+
+\usepackage{graphicx}
+
+\usepackage{fontspec}
+\usepackage[spanish,es-noshorthands]{babel}
+
+\usepackage{amsmath,amssymb}
+\usepackage{bm}
+
 \usepackage{tikz}
 \usepackage{tikz-3dplot}
-\usepackage[spanish]{babel}
-\usepackage{fontspec}
-\usepackage{amsmath, amssymb}
-\usepackage{bm}
+\usetikzlibrary{arrows.meta}
+
 
 \title{Formalismo Matemático RA}
 \author{Estudiantes RA 2026 2 }
@@ -14,13 +20,8 @@
 \begin{document}
 
 \maketitle
-
 \section{Marcos de referencia y matrices de rotation}
-
-\paragraph{Nombre del estudiante 1}
-
-\paragraph{Nombre del estudiante 2}
-
+\paragraph{Osuna}
 \subsection*{Expresión del vector en ambos marcos}
 
 \begin{align}
@@ -183,13 +184,74 @@
   \det\!\left(\bm{R}^{b}_{I}\right) = 1
 \end{equation}
 
-\paragraph{Nombre del estudiante 3}
+\paragraph{Andres Felipe Valderrama Medina}
+\begin{equation}
+\begin{bmatrix}
+{a_x}^{b} \\
+{a_y}^{b} \\
+{a_z}^{b}
+\end{bmatrix}
+=
+\begin{bmatrix}
+\hat{\imath}^{I}\cdot\hat{\imath}^{b} &
+\hat{\jmath}^{I}\cdot\hat{\imath}^{b} &
+\hat{k}^{I}\cdot\hat{\imath}^{b}
+\\
+\hat{\imath}^{I}\cdot\hat{\jmath}^{b} &
+\hat{\jmath}^{I}\cdot\hat{\jmath}^{b} &
+\hat{k}^{I}\cdot\hat{\jmath}^{b}
+\\
+\hat{\imath}^{I}\cdot\hat{k}^{b} &
+\hat{\jmath}^{I}\cdot\hat{k}^{b} &
+\hat{k}^{I}\cdot\hat{k}^{b}
+\end{bmatrix}
+\begin{bmatrix}
+{a_x}^{I} \\
+{a_y}^{I} \\
+{a_z}^{I}
+\end{bmatrix}
+\end{equation}
+\begin{equation}
+\begin{bmatrix}
+a_x^{b} \\
+a_y^{b} \\
+a_z^{b}
+\end{bmatrix}
+=
+\begin{bmatrix}
+\cos(\psi) & \sin(\psi) & 0 \\
+-\sin(\psi) & \cos(\psi) & 0 \\
+0 & 0 & 1
+\end{bmatrix}
+\begin{bmatrix}
+a_x^{I} \\
+a_y^{I} \\
+a_z^{I}
+\end{bmatrix}
+\end{equation}
+\[
+\vec{a}^{\,b}
+=
+R_{I}^{b}\vec{a}^{\,I}
+\]
 
-\paragraph{David Santiago Sanabria Romero}
+\[
+\left(R_{I}^{b}\right)^{-1}
+=
+\left(R_{I}^{b}\right)^{T}
+=
+R_{b}^{I}
+\]
+
+\[
+\det\left(R_{I}^{b}\right)=1
+\]
+
+
 \newcommand{\C}[1]{\cos(#1)}
 \newcommand{\Sin}[1]{\sin(#1)}
 \section*{Cinemática y Transformación de Coordenadas}
-
+\paragraph{David Santiago Sanabria Romero}
 % --- 1. Transformación v2 -> b ---
 \subsection*{1. Transformación del marco $v_2$ al marco del cuerpo $b$}
 \begin{equation}
@@ -331,10 +393,10 @@ Por lo tanto, la tasa de variación de los ángulos de Euler es función de las 
 (\dot{\phi}, \dot{\theta}, \dot{\psi}) = f (p, q, r)
 \end{equation}
 
-\paragraph{Profe}
+
 
 \subsection{Dinámica traslacional en el marco del cuerpo}
-
+\paragraph{Profe}
 \subsubsection{Segunda ley de Newton}
 
 \begin{equation}
@@ -371,10 +433,9 @@ F_z
 \end{bmatrix}
 \end{equation}
 
-\paragraph{Javier Alejandro Tellez Paez}
 
 \section*{Dinámica}
-
+\paragraph{Javier Alejandro Tellez Paez}
 Ecuación general de transporte (derivada de un vector en marco inercial vs.\ body):
 \begin{equation}
 \left(\frac{d\vec{A}}{dt}\right)_{I}=\left(\frac{d\vec{A}}{dt}\right)_{b}+\vec{\omega}\times\vec{A}
@@ -423,5 +484,494 @@ Forma final para simulación:
 
 
 
+\section*{Gráficas}
+\paragraph{Ma Sofia Esguerra G cod 1804228}
+
+\begin{figure}
+\centering
+
+\begin{tikzpicture}[
+    >=Latex,
+    axis/.style={->, thick},
+    bodyaxis/.style={->, very thick},
+    anglearc/.style={->, thick, dashed},
+    every node/.style={font=\small}
+]
+
+% =========================================================
+% ORIGEN
+% =========================================================
+\coordinate (O) at (0,0);
+
+% =========================================================
+% EJES INERCIALES
+% =========================================================
+
+% X
+\draw[axis] (O) -- (-2,-1.7)
+    node[below left] {$X_I$};
+
+% Y
+\draw[axis] (O) -- (3,0)
+    node[right] {$Y_I$};
+
+% Z positivo hacia abajo
+\draw[axis] (O) -- (0,-3)
+    node[below] {$Z_I$};
+    
+\node[blue, left] at (0,-1.1) {$Z_I(+)$};
+
+% =========================================================
+% EJES BODY DESPUÉS DEL YAW
+% =========================================================
+
+% X_B
+\draw[bodyaxis, red]
+    (O) -- (2.5,-1.8)
+    node[right] {$X_B$};
+
+% Y_B
+\draw[bodyaxis, red]
+    (O) -- (2.1,1.2)
+    node[above right] {$Y_B$};
+
+% =========================================================
+% ARCO DE YAW
+% =========================================================
+
+\draw[anglearc, blue]
+    (1.0,0)
+    arc[start angle=0,end angle=-36,radius=1.0];
+
+\node[blue] at (1.15,-0.45) {$\psi$};
+
+% =========================================================
+% ORIGEN
+% =========================================================
+
+\filldraw[black] (O) circle (2pt);
+
+% =========================================================
+% TEXTO
+% =========================================================
+
+\node[draw, rounded corners, red, align=center]
+    at (4,-1.8)
+    {$\psi$: Yaw\\[2mm]
+     Rotación alrededor de $Z$};
+
+\node[draw, blue, align=center]
+    at (0,-4)
+    {$Z$ positivo hacia ABAJO};
+
+\end{tikzpicture}
+
+\caption{Rotación alrededor del eje $Z$ — Yaw.}
+\label{fig:yaw}
+
+\end{figure}
+
+\begin{figure}
+\centering
+
+\begin{tikzpicture}[
+    >=Latex,
+    axis/.style={->, thick},
+    bodyaxis/.style={->, very thick},
+    anglearc/.style={->, thick, dashed},
+    every node/.style={font=\small}
+]
+
+\coordinate (O) at (0,0);
+
+% =========================================================
+% EJES INERCIALES
+% =========================================================
+
+% X
+\draw[axis]
+    (O) -- (-2.2,-1.6)
+    node[below left] {$X_I$};
+
+% Y
+\draw[axis]
+    (O) -- (3,0)
+    node[right] {$Y_I$};
+
+% Z positivo hacia abajo
+\draw[axis]
+    (O) -- (0,-3)
+    node[below] {$Z_I$};
+
+\node[blue, left] at (0,-1.1) {$Z_I(+)$};
+
+% =========================================================
+% EJES BODY
+% =========================================================
+
+% X_B rotado
+\draw[bodyaxis, green!60!black]
+    (O) -- (-1.8,0.9)
+    node[above left] {$X_B$};
+
+% Z_B rotado
+\draw[bodyaxis, green!60!black]
+    (O) -- (2.0,-2.1)
+    node[right] {$Z_B$};
+
+% =========================================================
+% EJE Y DE ROTACIÓN
+% =========================================================
+
+\draw[very thick, gray]
+    (O) -- (0,2.4)
+    node[above] {$Y$};
+
+% =========================================================
+% ARCO PITCH
+% =========================================================
+
+\draw[anglearc, green!60!black]
+    (-0.8,-0.7)
+    arc[start angle=220,end angle=315,radius=1.0];
+
+\node[green!60!black] at (0.0,-1.2) {$\theta$};
+
+% =========================================================
+% ORIGEN
+% =========================================================
+
+\filldraw[black] (O) circle (2pt);
+
+% =========================================================
+% TEXTO
+% =========================================================
+
+\node[
+    draw,
+    rounded corners,
+    green!50!black,
+    align=center
+]
+at (4,-1.8)
+{$\theta$: Pitch\\[2mm]
+Rotación alrededor de $Y$};
+
+\node[draw, blue, align=center]
+at (0,-4)
+{$Z$ positivo hacia ABAJO};
+
+\end{tikzpicture}
+
+\caption{Rotación alrededor del eje $Y$ — Pitch.}
+\label{fig:pitch}
+
+\end{figure}
+
+\begin{figure}
+\centering
+
+\begin{tikzpicture}[
+    >=Latex,
+    axis/.style={->, thick},
+    bodyaxis/.style={->, very thick},
+    anglearc/.style={->, thick, dashed},
+    every node/.style={font=\small}
+]
+
+\coordinate (O) at (0,0);
+
+% =========================================================
+% EJES INERCIALES
+% =========================================================
+
+% X
+\draw[axis]
+    (O) -- (-2.2,-1.6)
+    node[below left] {$X_I$};
+
+% Y
+\draw[axis]
+    (O) -- (3,0)
+    node[right] {$Y_I$};
+
+% Z positivo hacia abajo
+\draw[axis]
+    (O) -- (0,-3)
+    node[below] {$Z_I$};
+
+\node[blue, left] at (0,-1.1) {$Z_I(+)$};
+
+% =========================================================
+% EJE X DE ROTACIÓN
+% =========================================================
+
+\draw[very thick, gray]
+    (O) -- (-2.2,-1.6);
+
+\node[gray] at (-1.5,-1.0) {$X$};
+
+% =========================================================
+% EJES BODY
+% =========================================================
+
+% Y_B
+\draw[bodyaxis, blue]
+    (O) -- (2.5,1.3)
+    node[above right] {$Y_B$};
+
+% Z_B
+\draw[bodyaxis, blue]
+    (O) -- (2.1,-2.2)
+    node[right] {$Z_B$};
+
+% =========================================================
+% ARCO ROLL
+% =========================================================
+
+\draw[anglearc, blue]
+    (1.1,0)
+    arc[start angle=0,end angle=-47,radius=1.1];
+
+\node[blue] at (1.3,-0.55) {$\phi$};
+
+% =========================================================
+% ORIGEN
+% =========================================================
+
+\filldraw[black] (O) circle (2pt);
+
+% =========================================================
+% TEXTO
+% =========================================================
+
+\node[
+    draw,
+    rounded corners,
+    blue,
+    align=center
+]
+at (4,-1.8)
+{$\phi$: Roll\\[2mm]
+Rotación alrededor de $X$};
+
+\node[draw, blue, align=center]
+at (0,-4)
+{$Z$ positivo hacia ABAJO};
+
+\end{tikzpicture}
+
+\caption{Rotación alrededor del eje $X$ — Roll.}
+\label{fig:roll}
+
+\end{figure}
+
+\begin{figure}
+\centering
+
+\begin{tikzpicture}[
+    >=Latex,
+    axis/.style={->, very thick},
+    bodyaxis/.style={->, ultra thick},
+    every node/.style={font=\small}
+]
+
+% =========================================================
+% ORIGEN DEL SISTEMA INERCIAL
+% =========================================================
+
+\coordinate (O) at (-3,0);
+
+% =========================================================
+% MARCO INERCIAL NED
+% =========================================================
+
+% PN - Norte
+\draw[axis, red]
+    (O) -- (0,0)
+    node[midway, above] {$P_N$};
+
+% PE - Este
+\draw[axis, green!60!black]
+    (O) -- (-3,2.2)
+    node[above] {$P_E$};
+
+% PD - Down
+\draw[axis, blue]
+    (O) -- (-3,-2.8)
+    node[below] {$P_D$};
+
+% =========================================================
+% ORIGEN
+% =========================================================
+
+\filldraw[black] (O) circle (3pt);
+
+% =========================================================
+% MARCO BODY
+% =========================================================
+
+\coordinate (B) at (4,0.5);
+
+% xB
+\draw[bodyaxis, red]
+    (B) -- (6.5,1.8)
+    node[right] {$x_B$};
+
+% yB
+\draw[bodyaxis, green!60!black]
+    (B) -- (2.0,1.2)
+    node[left] {$y_B$};
+
+% zB
+\draw[bodyaxis, blue]
+    (B) -- (4,-2.2)
+    node[right] {$z_B$};
+
+% =========================================================
+% CUERPO
+% =========================================================
+
+\draw[thick]
+    (3.5,0.2) --
+    (4.7,0.8) --
+    (5.2,0.4) --
+    (4.0,-0.1) --
+    cycle;
+
+\draw[thick]
+    (3.5,0.2) --
+    (4.0,-0.1);
+
+\draw[thick]
+    (4.7,0.8) --
+    (5.2,0.4);
+
+% =========================================================
+% YAW
+% =========================================================
+
+\draw[
+    ->,
+    very thick,
+    blue,
+    dashed
+]
+(0.2,0)
+arc[start angle=0,end angle=25,radius=4.2];
+
+\node[blue]
+at (0.7,0.8)
+{$\psi$};
+
+\node[blue]
+at (1.0,1.2)
+{Yaw};
+
+% =========================================================
+% PITCH
+% =========================================================
+
+\draw[
+    ->,
+    very thick,
+    green!60!black
+]
+(4.0,1.2)
+arc[start angle=90,end angle=35,radius=0.8];
+
+\node[green!50!black]
+at (4.5,1.4)
+{$\theta$};
+
+\node[green!50!black]
+at (5.0,1.7)
+{Pitch};
+
+% =========================================================
+% ROLL
+% =========================================================
+
+\draw[
+    ->,
+    very thick,
+    red
+]
+(4.7,0.2)
+arc[start angle=-20,end angle=35,radius=0.8];
+
+\node[red]
+at (5.4,0.0)
+{$\phi$};
+
+\node[red]
+at (5.8,-0.4)
+{Roll};
+
+% =========================================================
+% ETIQUETAS DE MARCOS
+% =========================================================
+
+\node[
+    draw,
+    rounded corners,
+    blue,
+    fill=white
+]
+at (-3,3.0)
+{\textbf{Marco Inercial (NED)}};
+
+\node[
+    draw,
+    rounded corners,
+    blue,
+    fill=white
+]
+at (4,3.0)
+{\textbf{Marco Body (B)}};
+
+% =========================================================
+% CONVENCIÓN
+% =========================================================
+
+\node[
+    draw,
+    rounded corners,
+    align=left,
+    fill=white
+]
+at (-0.2,-3.5)
+{
+\textbf{Convención NED:}\\
+$P_N$: Norte\\
+$P_E$: Este\\
+$P_D$: Down $\rightarrow$ positivo hacia abajo
+};
+
+% =========================================================
+% ÁNGULOS DE EULER
+% =========================================================
+
+\node[
+    draw,
+    rounded corners,
+    align=left,
+    fill=white
+]
+at (7.5,-1.5)
+{
+\textbf{Ángulos de Euler}\\[1mm]
+$\psi$: Yaw $\rightarrow Z$\\
+$\theta$: Pitch $\rightarrow Y$\\
+$\phi$: Roll $\rightarrow X$
+};
+
+\end{tikzpicture}
+
+\caption{
+Marco de referencia inercial NED y marco Body con los ángulos de Euler.
+}
+\label{fig:frames}
+\end{figure}
 
 \end{document}
