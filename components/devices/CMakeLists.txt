@@ -1,7 +1,11 @@
 idf_component_register(
     SRCS
         "dps310.c"
-    INCLUDE_DIRS "."
+        "hx711_driver.c"
+
+    INCLUDE_DIRS
+        "."
+
     REQUIRES
         drivers_ra
 )
