@@ -1,0 +1,151 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{geometry}
+\geometry{a4paper, margin=2.5cm}
+
+\begin{document}
+
+\section{Definición del Punto de Equilibrio}
+\begin{itemize}
+    \item Velocidades lineales y angulares: $u = v = w = 0$ y $p = q = r = 0$.
+    \item Ángulos de inclinación: $\phi = 0$, $\theta = 0$.
+\end{itemize}
+
+El método del Jacobiano: $\dot{x} = f(x, u)$, la linealización se obtiene calculando las derivadas parciales de $f$ respecto a cada variable de estado y de entrada, evaluadas en el punto de equilibrio. 
+
+\vspace{0.5cm}
+
+\section{Ecuaciones de Cinemática Actitudinal}
+
+\subsection{1. Ecuación para Roll ($\dot{\phi}$)}
+La ecuación original no lineal es:
+\begin{equation}
+    f_{\phi} = \dot{\phi} = p + q \sin\phi \tan\theta + r \cos\phi \tan\theta
+\end{equation}
+
+Calculamos las derivadas parciales y evaluamos en el punto de equilibrio ($\phi=0, \theta=0, p=q=r=0$):
+\begin{align*}
+    \frac{\partial f_{\phi}}{\partial p} &= 1 \quad \rightarrow \mathbf{1} \\
+    \frac{\partial f_{\phi}}{\partial q} &= \sin\phi \tan\theta \quad \rightarrow \sin(0)\tan(0) = \mathbf{0} \\
+    \frac{\partial f_{\phi}}{\partial r} &= \cos\phi \tan\theta \quad \rightarrow \cos(0)\tan(0) = \mathbf{0} \\
+    \frac{\partial f_{\phi}}{\partial \phi} &= q \cos\phi \tan\theta - r \sin\phi \tan\theta \quad \rightarrow 0 - 0 = \mathbf{0} \\
+    \frac{\partial f_{\phi}}{\partial \theta} &= q \sin\phi \sec^2\theta + r \cos\phi \sec^2\theta \quad \rightarrow 0 + 0 = \mathbf{0}
+\end{align*}
+
+Construyendo la ecuación linealizada:
+\begin{equation}
+    \Delta\dot{\phi} = (1)\Delta p + (0)\Delta q + (0)\Delta r \implies \mathbf{\Delta\dot{\phi} = \Delta p}
+\end{equation}
+
+\subsection{2. Ecuación para Pitch ($\dot{\theta}$)}
+La ecuación original no lineal es:
+\begin{equation}
+    f_{\theta} = \dot{\theta} = q \cos\phi - r \sin\phi
+\end{equation}
+
+Calculamos las derivadas parciales y evaluamos en el punto de equilibrio:
+\begin{align*}
+    \frac{\partial f_{\theta}}{\partial q} &= \cos\phi \quad \rightarrow \cos(0) = \mathbf{1} \\
+    \frac{\partial f_{\theta}}{\partial r} &= -\sin\phi \quad \rightarrow -\sin(0) = \mathbf{0} \\
+    \frac{\partial f_{\theta}}{\partial \phi} &= -q \sin\phi - r \cos\phi \quad \rightarrow -0 - 0 = \mathbf{0}
+\end{align*}
+\textit{Nota: Las derivadas respecto a $p$ y $\theta$ son 0 ya que la función no depende de ellas.}
+
+Construyendo la ecuación linealizada:
+\begin{equation}
+    \Delta\dot{\theta} = (1)\Delta q + (0)\Delta r + (0)\Delta \phi \implies \mathbf{\Delta\dot{\theta} = \Delta q}
+\end{equation}
+
+\subsection{3. Ecuación para Yaw ($\dot{\psi}$)}
+La ecuación original no lineal es:
+\begin{equation}
+    f_{\psi} = \dot{\psi} = q \frac{\sin\phi}{\cos\theta} + r \frac{\cos\phi}{\cos\theta}
+\end{equation}
+
+Calculamos las derivadas parciales y evaluamos en el punto de equilibrio:
+\begin{align*}
+    \frac{\partial f_{\psi}}{\partial q} &= \frac{\sin\phi}{\cos\theta} \quad \rightarrow \frac{\sin(0)}{\cos(0)} = \frac{0}{1} = \mathbf{0} \\
+    \frac{\partial f_{\psi}}{\partial r} &= \frac{\cos\phi}{\cos\theta} \quad \rightarrow \frac{\cos(0)}{\cos(0)} = \frac{1}{1} = \mathbf{1} \\
+    \frac{\partial f_{\psi}}{\partial \phi} &= q \frac{\cos\phi}{\cos\theta} - r \frac{\sin\phi}{\cos\theta} \quad \rightarrow 0 - 0 = \mathbf{0} \\
+    \frac{\partial f_{\psi}}{\partial \theta} &= q \frac{\sin\phi \sin\theta}{\cos^2\theta} + r \frac{\cos\phi \sin\theta}{\cos^2\theta} \quad \rightarrow 0 + 0 = \mathbf{0}
+\end{align*}
+
+Construyendo la ecuación linealizada:
+\begin{equation}
+    \Delta\dot{\psi} = (0)\Delta q + (1)\Delta r + (0)\Delta \phi + (0)\Delta \theta \implies \mathbf{\Delta\dot{\psi} = \Delta r}
+\end{equation}
+
+\vspace{0.5cm}
+
+\section{Dinámica Rotacional y Funciones de Transferencia}
+A partir de las ecuaciones de dinámica rotacional (ecuación 4 del modelo), evaluamos teniendo en cuenta que en el punto de equilibrio $p \approx 0, q \approx 0, r \approx 0$. Esto anula los productos cruzados inerciales, resultando en:
+\begin{align}
+    \dot{p} &= \frac{\tau_x}{I_{xx}} \\
+    \dot{q} &= \frac{\tau_y}{I_{yy}} \\
+    \dot{r} &= \frac{\tau_z}{I_{zz}}
+\end{align}
+
+Derivando las ecuaciones cinemáticas actitudinales linealizadas ($\dot{\phi} = p$, $\dot{\theta} = q$, $\dot{\psi} = r$) con respecto al tiempo, obtenemos las aceleraciones angulares:
+\begin{align}
+    \ddot{\phi} &= \dot{p} = \frac{\tau_x}{I_{xx}} \\
+    \ddot{\theta} &= \dot{q} = \frac{\tau_y}{I_{yy}} \\
+    \ddot{\psi} &= \dot{r} = \frac{\tau_z}{I_{zz}}
+\end{align}
+
+\subsection{Obtención de las Funciones de Transferencia}
+Aplicando la Transformada de Laplace (asumiendo condiciones iniciales nulas), la segunda derivada en el dominio del tiempo se transforma multiplicando por $s^2$ en el dominio de la frecuencia. 
+
+\textbf{1. Función de Transferencia para Roll ($\phi$):}
+\begin{equation}
+    s^2 \phi(s) = \frac{\tau_x(s)}{I_{xx}} \implies \mathbf{\frac{\phi(s)}{\tau_x(s)} = \frac{1/I_{xx}}{s^2}}
+\end{equation}
+
+\textbf{2. Función de Transferencia para Pitch ($\theta$):}
+\begin{equation}
+    s^2 \theta(s) = \frac{\tau_y(s)}{I_{yy}} \implies \mathbf{\frac{\theta(s)}{\tau_y(s)} = \frac{1/I_{yy}}{s^2}}
+\end{equation}
+
+\textbf{3. Función de Transferencia para Yaw ($\psi$):}
+\begin{equation}
+    s^2 \psi(s) = \frac{\tau_z(s)}{I_{zz}} \implies \mathbf{\frac{\psi(s)}{\tau_z(s)} = \frac{1/I_{zz}}{s^2}}
+\end{equation}
+
+\vspace{0.5cm}
+
+\section{Dinámica Traslacional y Función de Transferencia de Altura}
+\subsection{1. Cinemática de Posición ($P_d$)}
+De la primera matriz (ecuación 1), la tasa de cambio de la posición en el eje \textit{Down} es:
+\begin{equation}
+    \dot{P}_d = -u \sin\theta + v \sin\phi \cos\theta + w \cos\phi \cos\theta
+\end{equation}
+Linealizando por el Jacobiano y evaluando en el punto de equilibrio ($\phi=0, \theta=0, u=v=w=0$), los dos primeros términos se anulan y el coseno de cero es 1, obteniendo:
+\begin{equation}
+    \Delta\dot{P}_d = \Delta w \implies \dot{P}_d = w
+\end{equation}
+
+\subsection{2. Dinámica Traslacional ($w$)}
+De la tercera matriz (ecuación 3), la dinámica de la velocidad lineal en el eje Z es:
+\begin{equation}
+    \dot{w} = qu - pv + g \cos\phi \cos\theta - \frac{f_t}{m}
+\end{equation}
+Linealizando alrededor del equilibrio ($p=q=u=v=0, \phi=0, \theta=0$), los términos de productos cruzados $qu$ y $pv$ se anulan. Evaluando las variables incrementales, obtenemos:
+\begin{equation}
+    \Delta\dot{w} = -\frac{1}{m} \Delta f_t \implies \dot{w} = -\frac{1}{m} f_t
+\end{equation}
+
+\subsection{3. Función de Transferencia de Altura}
+Derivando la ecuación linealizada de posición ($\dot{P}_d = w$) con respecto al tiempo, obtenemos la aceleración lineal:
+\begin{equation}
+    \ddot{P}_d = \dot{w} = -\frac{1}{m} f_t
+\end{equation}
+
+Aplicando la Transformada de Laplace (asumiendo condiciones iniciales nulas) pasamos al dominio de la frecuencia:
+\begin{align}
+    s^2 P_d(s) &= -\frac{1}{m} f_t(s) \nonumber \\
+    \mathbf{\frac{P_d(s)}{f_t(s)}} &\mathbf{= -\frac{1/m}{s^2}}
+\end{align}
+
+\end{document}
