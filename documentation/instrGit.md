@@ -82,3 +82,11 @@ git checkout -b apellido-tarea2
   ```bash
   git branch -D tu-nombre-tarea1
   ```
+
+
+  ## para actualizar los cambio del github a su rama local 
+```bash
+  git fetch    
+  git rebase origin/main   
+
+```
