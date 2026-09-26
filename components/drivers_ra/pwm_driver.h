@@ -1,6 +1,7 @@
 #ifndef PWM_DRIVER_H
 #define PWM_DRIVER_H
 
+#include "driver/gpio.h"
 #include "driver/ledc.h"
 #include "esp_err.h"
 
