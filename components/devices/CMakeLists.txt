@@ -3,6 +3,7 @@ idf_component_register(
         "dps310.c"
         "hx711_driver.c"
         "acs770.c"
+        "esc.c"
 
     INCLUDE_DIRS
         "."
