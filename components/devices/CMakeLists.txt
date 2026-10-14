@@ -4,6 +4,7 @@ idf_component_register(
         "hx711_driver.c"
         "acs770.c"
         "esc.c"
+        "tcrt5000.c"
 
     INCLUDE_DIRS
         "."

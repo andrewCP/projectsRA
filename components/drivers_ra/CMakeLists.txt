@@ -5,6 +5,7 @@ idf_component_register(
         "uart_driver.c"
         "adc_driver.c"
         "pwm_driver.c"
+        "pcnt_driver.c"
 
     INCLUDE_DIRS
         "."
@@ -14,4 +15,5 @@ idf_component_register(
         esp_driver_i2c
         esp_driver_ledc
         esp_adc
+        esp_driver_pcnt
 )
