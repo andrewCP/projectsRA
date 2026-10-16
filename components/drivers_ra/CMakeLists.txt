@@ -6,6 +6,7 @@ idf_component_register(
         "adc_driver.c"
         "pwm_driver.c"
         "pcnt_driver.c"
+        "rpm_driver.c"
 
     INCLUDE_DIRS
         "."
